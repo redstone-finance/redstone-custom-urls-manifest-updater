@@ -1,5 +1,5 @@
 {
-  "name": "redstone-custom-url-oracles",
+  "name": "redstone-custom-url-manifest-frontend",
   "version": "0.0.1",
   "description": "Redstone custom URL manifest frontend",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "jsonpath": "^1.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-query": "^3.38.0",
     "react-router-dom": "6.3.0"
   },
   "devDependencies": {

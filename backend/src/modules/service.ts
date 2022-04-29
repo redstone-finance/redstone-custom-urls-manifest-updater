@@ -1,12 +1,6 @@
 import { ethers } from "ethers";
-import { arweaveUrl } from "../config/config";
-import { Manifest } from "../types";
+import { Manifest } from "../../../shared/types";
 import { initBundlr } from "../utils";
-
-export const fetchManifest = async (pendingOrSavedManifestTxId: string) => {
-	const fetchManifestResponse = await fetch(`${arweaveUrl}/${pendingOrSavedManifestTxId}`);
-	return await fetchManifestResponse.json() as Manifest;
-};
 
 export const checkIfSubscribed = (manifest: Manifest, url: string) => {
 	return Object.values(manifest).some((customUrl) => customUrl.customUrlDetails.url === url);
@@ -14,8 +8,9 @@ export const checkIfSubscribed = (manifest: Manifest, url: string) => {
 
 export const generateNewManifest = (manifest: Manifest, url: string, jsonpath: string) => {
 	const symbol = ethers.utils.id(`${jsonpath}---${url}`);
+	const shortSymbol = symbol.slice(0, 18);
 	const newManifest = { ...manifest };
-	newManifest[symbol] = {
+	newManifest[shortSymbol] = {
 		customUrlDetails: { url, jsonpath },
 	};
 	return newManifest;

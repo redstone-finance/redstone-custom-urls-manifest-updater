@@ -17,7 +17,7 @@ const NewJsonUrlAsset = () => {
 
 	const fetchJson = async () => {
 		if (url) {
-			const response = await window.fetch(url);
+			const response = await fetch(url);
 			const json = await response.json();
 			return JSON.stringify(json);
 		}
