@@ -8,7 +8,7 @@ import {
 	SmartWeaveNodeFactory,
 	Contract
 } from "redstone-smartweave";
-import { evaluateLatestManifestTxId } from "../src/modules/cron";
+import { evaluatePendingOrSavedManifestTxId } from "../src/modules/cron";
 import { buildStore } from "../src/store/store";
 import { addFunds, mineBlock } from "./helpers/utils";
 import { RedstoneOraclesState, Store } from "../src/types";
@@ -77,7 +77,7 @@ describe("Cron", () => {
     await arlocal.stop();
   });
 
-	describe('evaluateLatestManifestTxId', () => {
+	describe('evaluatePendingOrSavedManifestTxId', () => {
 		let store: Store;
 	
 		beforeEach(() => {
@@ -89,7 +89,7 @@ describe("Cron", () => {
 			store.updatePendingOrSavedManifestTxId('testManifestTxId');
 			const state = (await contract.readState()).state;
 			const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
-			await evaluateLatestManifestTxId(contract, store);
+			await evaluatePendingOrSavedManifestTxId(contract, store);
 			expect(store.getLatestManifestTxId()).toBe('testManifestTxId');
 			expect(store.getPendingOrSavedManifestTxId()).toBe('testManifestTxId');
 			expect(dataFeed.manifestTxId).toBe('testManifestTxId');
@@ -98,7 +98,7 @@ describe("Cron", () => {
 		test('latestManifestTxId is not equal to pendingOrSavedManifestTxId', async () => {
 			store.updateLatestManifestTxId('newTestManifestTxId');
 			store.updatePendingOrSavedManifestTxId('testManifestTxId');
-			await evaluateLatestManifestTxId(contract, store);
+			await evaluatePendingOrSavedManifestTxId(contract, store);
 			await mineBlock(arweave);
 			const state = (await contract.readState()).state;
 			const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
