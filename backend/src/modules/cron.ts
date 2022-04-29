@@ -1,5 +1,5 @@
 import { Contract, SmartWeaveNodeFactory } from "redstone-smartweave";
-import { oracleRegistryAddress } from "../config/config";
+import { oracleRegistryAddress } from "../../../shared/config";
 import { initArweave } from "../utils";
 import { Store } from "../types";
 

@@ -1,22 +1,30 @@
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import js from 'jsonpath';
 import Card from "../components/Card";
-
-const oracle = {
-	id: "0x031f7bcd73d9f5edf2a568ce68a1fa12eb5446979aa153dd8782030373c49b04",
-	url: "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-	jsonpath: "$.RAW.ETH.USD.MEDIAN",
-	maxPriceDeviationPercent: 80
-}
+import Loader from "../components/Loader";
+import { fetchAsset } from "../utils";
 
 const JsonUrlAssetDetails = () => {
 	const [jsonPathValue, setJsonPathValue] = useState('');
 	const [json, setJson] = useState('');
+	const { id } = useParams();;
+
+	const { isLoading, data } = useQuery(`assets-${id}`, () => {
+		if (id) {
+			return fetchAsset(id);
+		}
+	});
+
+	if (isLoading || !data) {
+		return <Loader />;
+	}
 
 	const fetchJson = async () => {
 		try {
-			const response = await window.fetch(oracle.url);
+			const response = await fetch(data.url);
 			const manifest = await response.json();
 			setJson(JSON.stringify(manifest));
 			return manifest;
@@ -29,7 +37,7 @@ const JsonUrlAssetDetails = () => {
 		const manifest = await fetchJson()
 		setJson(JSON.stringify(manifest));
 		try {
-			const jsonPathValueFromManifest = js.query(manifest, oracle.jsonpath);
+			const jsonPathValueFromManifest = js.query(manifest, data.jsonpath);
 			if (jsonPathValueFromManifest.length > 0) {
 				setJsonPathValue(JSON.stringify(jsonPathValueFromManifest));
 			} else {
@@ -48,7 +56,7 @@ const JsonUrlAssetDetails = () => {
 						ID
 					</p>
 					<p className="text-md text-neutral-600">
-						{oracle?.id ?? '-'}
+						{data?.id ?? '-'}
 					</p>
 				</div>
 				<div>
@@ -56,7 +64,7 @@ const JsonUrlAssetDetails = () => {
 						URL
 					</p>
 					<p className="text-md text-neutral-600">
-						{oracle?.url ?? '-'}
+						{data?.url ?? '-'}
 					</p>
 				</div>
 				<div>
@@ -64,7 +72,7 @@ const JsonUrlAssetDetails = () => {
 						JSON path
 					</p>
 					<p className="text-md text-neutral-600">
-						{oracle?.jsonpath ?? '-'}
+						{data?.jsonpath ?? '-'}
 					</p>
 				</div>
 			</div>

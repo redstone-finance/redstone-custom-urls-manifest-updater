@@ -10,7 +10,6 @@ export const initArweave = () => {
 };
 
 export const initBundlr = () => {
-	console.log(process.env.JWK_WALLET)
 	const jwk = JSON.parse(process.env.JWK_WALLET);
 	return new Bundlr("http://node1.bundlr.network", "arweave", jwk);
 };

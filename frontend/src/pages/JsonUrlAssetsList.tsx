@@ -1,33 +1,17 @@
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
-import { shortenCustomOracleId } from "../utils";
-
-const mock = {
-	"0x031f7bcd73d9f5edf2a568ce68a1fa12eb5446979aa153dd8782030373c49b04": {
-		"customUrlDetails": {
-			"url": "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-			"jsonpath": "$.RAW.ETH.USD.PRICE"
-		},
-		"maxPriceDeviationPercent": 80
-	},
-	"0xffe45ffaf671f5639376511d38fec72826638665701dafbcdb49ee1da0168ad5": {
-		"customUrlDetails": {
-			"url": "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-			"jsonpath": "$.RAW.ETH.USD.MEDIAN"
-		},
-		"maxPriceDeviationPercent": 80
-	},
-	"0xd8e28697d41536a1cf9eaa7399232033d30cbc3ab08ce055fb3184fa2df599a6": {
-		"customUrlDetails": {
-			"url": "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-			"jsonpath": "$.RAW.ETH.USD.VOLUMEDAY"
-		},
-		"maxPriceDeviationPercent": 80
-	}
-}
+import Loader from "../components/Loader";
+import { fetchAssets, shortenCustomOracleId } from "../utils";
 
 const JsonUrlAssetsList = () => {
 	const navigate = useNavigate();
+
+	const { isLoading, data } = useQuery('assets', fetchAssets);
+
+	if (isLoading || !data) {
+		return <Loader />;
+	}
 
 	return (
 		<Card>
@@ -40,7 +24,7 @@ const JsonUrlAssetsList = () => {
 					Create new
 				</button>
 			</div>
-			{Object.entries(mock).map(([key, value]) => (
+			{Object.entries(data).map(([key, value]) => (
 				<div
 					key={key}
 					className="flex rounded align-center shadow-3xl p-5 cursor-pointer hover:scale-105 hover:transition-all"

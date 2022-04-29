@@ -1,5 +1,6 @@
 import express from "express";
-import { checkIfSubscribed, fetchManifest, sendNewManifest } from '../modules/service';
+import { checkIfSubscribed, sendNewManifest } from '../modules/service';
+import { fetchManifest } from '../../../shared/utils';
 import { CustomUrlsBody, Store } from "../types";
 
 const router = express.Router();
