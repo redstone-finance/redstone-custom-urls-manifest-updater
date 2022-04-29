@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useMutation } from "react-query";
 import Editor from "@monaco-editor/react";
 import js from 'jsonpath';
 import Card from "../components/Card";
+import { NewJsonUrlAssetInput } from "../types";
 
 const NewJsonUrlAsset = () => {
 	const [url, setUrl] = useState('');
@@ -47,6 +50,11 @@ const NewJsonUrlAsset = () => {
 			handleJsonpathQuery(jsonAsString);
 		}
 	};
+
+	const mutation = useMutation((newCustomUrl: NewJsonUrlAssetInput) => {
+		const url = `${import.meta.env.VITE_BACKEND_URL}/custom-urls`;
+		return axios.post(url, newCustomUrl);
+	});
 
 	return (
 		<Card>
@@ -104,7 +112,7 @@ const NewJsonUrlAsset = () => {
 			{jsonpathMatchResult && (
 				<div className="flex justify-end">
 					<button
-						onClick={() => handleEvaluate()}
+						onClick={() => mutation.mutate({ url, jsonpath })}
 						className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
 					>
 						Subscribe

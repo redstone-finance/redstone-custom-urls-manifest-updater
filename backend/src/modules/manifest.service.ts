@@ -1,16 +1,10 @@
-import { ethers } from "ethers";
 import { Manifest } from "../../../shared/types";
-import { initBundlr } from "../utils";
-
-export const checkIfSubscribed = (manifest: Manifest, url: string) => {
-	return Object.values(manifest).some((customUrl) => customUrl.customUrlDetails.url === url);
-};
+import { calculateId, initBundlr } from "../utils";
 
 export const generateNewManifest = (manifest: Manifest, url: string, jsonpath: string) => {
-	const symbol = ethers.utils.id(`${jsonpath}---${url}`);
-	const shortSymbol = symbol.slice(0, 18);
+	const id = calculateId(url, jsonpath);
 	const newManifest = { ...manifest };
-	newManifest[shortSymbol] = {
+	newManifest[id] = {
 		customUrlDetails: { url, jsonpath },
 	};
 	return newManifest;

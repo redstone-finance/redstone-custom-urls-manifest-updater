@@ -1,9 +1,10 @@
-import { Contract, SmartWeaveNodeFactory } from "redstone-smartweave";
-import { oracleRegistryAddress } from "../../../shared/config";
-import { initArweave } from "../utils";
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.join(__dirname, '../.env') });
+import { Contract } from "redstone-smartweave";
 import { Store } from "../types";
 
-export const evaluateLatestManifestTxId = async (
+export const evaluatePendingOrSavedManifestTxId = async (
 	contract: Contract,
 	store: Store
 ) => {
@@ -24,20 +25,15 @@ export const evaluateLatestManifestTxId = async (
 	store.updatePendingOrSavedManifestTxId(latestManifestTxId);
 };
 
-const arweave = initArweave();
-const contract = SmartWeaveNodeFactory
-	.memCached(arweave)
-	.contract(oracleRegistryAddress);
-
-export const buildCron = (store: Store) => {
-	const startUpdatingLatestManifestTxId = () => {
+export const buildCron = (contract: Contract, store: Store) => {
+	const startUpdatingPendingOrSavedManifestTxId = () => {
 		const tenSecondsInMilliseconds = 10000;
 		setInterval(() => {
-			evaluateLatestManifestTxId(contract, store);
+			evaluatePendingOrSavedManifestTxId(contract, store);
 		}, tenSecondsInMilliseconds)
 	}
 
 	return {
-		startUpdatingLatestManifestTxId
+		startUpdatingPendingOrSavedManifestTxId
 	}
 };

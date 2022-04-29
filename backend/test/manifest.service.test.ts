@@ -1,13 +1,14 @@
-import { checkIfSubscribed, generateNewManifest, sendNewManifest } from '../src/modules/service';
+import { generateNewManifest } from '../src/modules/manifest.service';
+import { checkIfSubscribed } from '../src/utils';
 import manifest from './helpers/mockManifest.json';
-const bundlr = jest.mock('@bundlr-network/client');
 
 describe('Service', () => {
 	describe('checkIfSubscribed', () => {
 		test('custom url asset already subscribed', () => {
 			const isAlreadySubscribed = checkIfSubscribed(
 				manifest,
-				'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD'
+				'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD',
+				'$.RAW.ETH.USD.PRICE'
 			);
 			expect(isAlreadySubscribed).toBeTruthy();
 		});
@@ -15,7 +16,8 @@ describe('Service', () => {
 		test('custom url asset not subscribed', () => {
 			const isAlreadySubscribed = checkIfSubscribed(
 				manifest,
-				'https://notSubscribed'
+				'https://notSubscribed',
+				'notSubscribedManifest'
 			);
 			expect(isAlreadySubscribed).toBeFalsy();
 		});
@@ -26,7 +28,7 @@ describe('Service', () => {
 			const newManifest = generateNewManifest(manifest, 'https://newUrl', 'newJsonpath');
 			expect(newManifest).toEqual({
 				...manifest,
-				'0x16e82b57b6e71a276ff1675ec5f9883dde238d28636ca5fa2f16252fe57509f2': {
+				'0x16e82b57b6e71a27': {
 						customUrlDetails: {
 							jsonpath: 'newJsonpath',
 						 	url: 'https://newUrl'
