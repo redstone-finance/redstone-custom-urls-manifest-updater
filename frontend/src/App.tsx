@@ -11,7 +11,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="h-screen bg-neutral-100">
+        <div className="h-full overflow-auto bg-neutral-100">
           <Header />
           <Routes>
             <Route path="/" element={<JsonUrlAssetsList />} />
