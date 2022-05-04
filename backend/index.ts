@@ -22,6 +22,8 @@ cron.startUpdatingPendingOrSavedManifestTxId();
 
 app.use(routes);
 
+app.use(express.static('../frontend/dist'));
+
 app.listen(port, () => {
   console.log(`Custom URL manifest updater stared at port: ${port}`)
 });

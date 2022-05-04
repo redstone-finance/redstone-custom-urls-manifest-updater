@@ -8,7 +8,7 @@ import { checkIfSubscribed } from "../utils";
 const router = express.Router();
 
 export const buildRoutes = (contract: Contract, store: Store) => {
-	router.post<CustomUrlsBody>('/custom-urls', async (req, res) => {
+	router.post<CustomUrlsBody>('/api/custom-urls', async (req, res) => {
 		const dataFeed = await fetchDataFeed(contract);
 		const manifest = await fetchManifest(dataFeed.manifestTxId);
 		const isAlreadySubscribed = checkIfSubscribed(manifest, req.body.url, req.body.jsonpath);
@@ -21,7 +21,7 @@ export const buildRoutes = (contract: Contract, store: Store) => {
 		}
 	});
 
-	router.get('/manifests', (req, res) => {
+	router.get('/api/manifests', (req, res) => {
 		const latestManifestTxId = store.getLatestManifestTxId();
 		const pendingOrSavedManifestTxId = store.getPendingOrSavedManifestTxId();
 		res.send({

@@ -12,8 +12,11 @@
     "backend:test": "cd backend && yarn test",
     "backend:build": "cd backend && yarn build",
     "backend:start": "cd backend && yarn start",
+    "backend:dev": "cd backend && yarn dev",
     "build": "yarn frontend:build && yarn backend:build",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev": "yarn frontend:build && yarn backend:dev",
+    "start": "yarn frontend:build && yarn backend:start"
   },
   "dependencies": {
     "arweave": "^1.10.23",
