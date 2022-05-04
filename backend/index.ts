@@ -16,7 +16,7 @@ const port = process.env.PORT;
 const store = buildStore();
 const jwk = JSON.parse(process.env.JWK_WALLET);
 const contract = getOracleContract(jwk);
-const routes = buildRoutes(contract, store);
+const routes = buildRoutes(store);
 const cron = buildCron(contract, store);
 cron.startUpdatingPendingOrSavedManifestTxId();
 

@@ -1,8 +1,8 @@
 import Arweave from "arweave";
-import { SmartWeaveNodeFactory, Contract } from "redstone-smartweave";
+import { SmartWeaveNodeFactory } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { arweaveUrl, oracleRegistryAddress } from "./config";
-import { DataFeedWithId, Manifest, RedstoneOraclesInput } from "./types";
+import { Manifest } from "./types";
 
 export const fetchManifest = async (manifestTransactionId: string) => {
 	const fetchManifestResponse = await fetch(`${arweaveUrl}/${manifestTransactionId}`);
@@ -23,13 +23,4 @@ export const getOracleContract = (jwk: JWKInterface) => {
 		.memCached(arweave)
 		.contract(oracleRegistryAddress)
 		.connect(jwk);
-};
-
-export const fetchDataFeed = async (contract: Contract) => {
-	return (await contract.viewState<RedstoneOraclesInput, DataFeedWithId>({
-		function: "getDataFeedDetailsById",
-		data: {
-			id: "redstone-custom-urls-demo"
-		}
-	})).result;
 };
