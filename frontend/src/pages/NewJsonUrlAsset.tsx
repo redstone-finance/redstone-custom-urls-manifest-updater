@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import js from 'jsonpath';
 import Card from "../components/Card";
-import { NewJsonUrlAssetInput } from "../types";
 import Modal from "../components/Modal";
+import { Spinner } from "../components/Loader";
+import { NewJsonUrlAssetInput } from "../types";
 
 const NewJsonUrlAsset = () => {
 	const navigate = useNavigate();
@@ -97,7 +98,7 @@ const NewJsonUrlAsset = () => {
 				</button>
 				{stringJson && (
 					<div className="flex justify-between">
-						<Editor 
+						<Editor
 							height="40vh"
 							defaultLanguage="json"
 							width="48%"
@@ -105,7 +106,7 @@ const NewJsonUrlAsset = () => {
 							options={ { minimap: { enabled: false }}}
 							className="border-2"
 						/>
-						<Editor 
+						<Editor
 							height="40vh"
 							width="48%"
 							defaultLanguage="json"
@@ -120,12 +121,17 @@ const NewJsonUrlAsset = () => {
 				)}
 				{jsonpathMatchResult && (
 					<div className="flex justify-end">
-						<button
-							onClick={() => mutation.mutate({ url, jsonpath })}
-							className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
-						>
-							Subscribe
-						</button>
+						{mutation.isLoading ? (
+								<Spinner />
+							) : (
+								<button
+									onClick={() => mutation.mutate({ url, jsonpath })}
+									className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
+								>
+									Subscribe
+								</button>
+							)
+						}
 					</div>
 				)}
 			</Card>
