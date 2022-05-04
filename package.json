@@ -9,7 +9,6 @@
     "postinstall": "yarn backend:install && yarn frontend:install",
     "frontend:dev": "cd frontend && yarn dev",
     "frontend:build": "cd frontend && yarn build",
-    "frontend:preview": "cd frontend && yarn preview",
     "backend:test": "cd backend && yarn test",
     "backend:build": "cd backend && yarn build",
     "backend:start": "cd backend && yarn start",

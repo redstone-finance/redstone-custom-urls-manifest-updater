@@ -1,15 +1,16 @@
 import express from "express";
+import { Contract } from "redstone-smartweave";
 import { sendNewManifest } from '../modules/manifest.service';
-import { fetchManifest } from '../../../shared/utils';
+import { fetchDataFeed, fetchManifest } from '../../../shared/utils';
 import { CustomUrlsBody, Store } from "../types";
 import { checkIfSubscribed } from "../utils";
 
 const router = express.Router();
 
-export const buildRoutes = (store: Store) => {
+export const buildRoutes = (contract: Contract, store: Store) => {
 	router.post<CustomUrlsBody>('/custom-urls', async (req, res) => {
-		const pendingOrSavedManifestTxId = store.getPendingOrSavedManifestTxId();
-		const manifest = await fetchManifest(pendingOrSavedManifestTxId);
+		const dataFeed = await fetchDataFeed(contract);
+		const manifest = await fetchManifest(dataFeed.manifestTxId);
 		const isAlreadySubscribed = checkIfSubscribed(manifest, req.body.url, req.body.jsonpath);
 		if (isAlreadySubscribed) {
 			res.sendStatus(400);
