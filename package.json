@@ -16,6 +16,10 @@
     "build": "yarn frontend:build && yarn backend:build",
     "lint": "eslint"
   },
+  "dependencies": {
+    "arweave": "^1.10.23",
+    "redstone-smartweave": "0.4.74"
+  },
   "devDependencies": {
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4"

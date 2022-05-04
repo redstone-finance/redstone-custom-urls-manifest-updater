@@ -1,3 +1,4 @@
+import { DataFeed } from "../../shared/types";
 import { buildStore } from "./store/store";
 
 export interface CustomUrlsBody {
@@ -27,14 +28,6 @@ interface Node {
   evmAddress: string;
   ipAddress: string;
   url?: string;
-}
-
-interface DataFeed {
-  name: string;
-  manifestTxId: string;
-  logo: string;
-  description: string;
-  admin: string;
 }
 
 export type Store = ReturnType<typeof buildStore>;
