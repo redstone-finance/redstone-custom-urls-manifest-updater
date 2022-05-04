@@ -1,6 +1,6 @@
 export const buildStore = () => {
-	let latestManifestTxId = 'cfARSgFA5k0bZmCMF864zjfuuFbG9ggCxrKFOZFEQYo';
-	let pendingOrSavedManifestTxId = 'cfARSgFA5k0bZmCMF864zjfuuFbG9ggCxrKFOZFEQYo';
+	let latestManifestTxId = 'iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q';
+	let pendingOrSavedManifestTxId = 'iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q';
 
 	const getLatestManifestTxId = () => latestManifestTxId;
 	const getPendingOrSavedManifestTxId = () => pendingOrSavedManifestTxId;

@@ -14,3 +14,14 @@ export interface DataFeed {
   description: string;
   admin: string;
 }
+
+export interface RedstoneOraclesInput {
+  function: "getDataFeedDetailsById"
+  data: {
+		id: string
+	}
+}
+
+export interface DataFeedWithId extends DataFeed {
+  id: string;
+}

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import RedstoneLogo from '../public/redstone-logo.svg';
+import RedstoneLogo from '../assets/redstone-logo.svg';
 
 const Header = () => {
 	const navigate = useNavigate();

@@ -52,7 +52,8 @@ const NewJsonUrlAsset = () => {
 	};
 
 	const mutation = useMutation((newCustomUrl: NewJsonUrlAssetInput) => {
-		const url = `${import.meta.env.VITE_BACKEND_URL}/custom-urls`;
+		const backendUrl = process.env.BACKEND_URL;
+		const url = `${backendUrl}/custom-urls`;
 		return axios.post(url, newCustomUrl);
 	});
 
