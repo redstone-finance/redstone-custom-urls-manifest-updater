@@ -6,3 +6,11 @@ export interface JsonUrlAsset {
 }
 
 export type Manifest = { [x in string]: JsonUrlAsset };
+
+export interface DataFeed {
+  name: string;
+  manifestTxId: string;
+  logo: string;
+  description: string;
+  admin: string;
+}
