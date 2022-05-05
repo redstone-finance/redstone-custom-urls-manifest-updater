@@ -1,19 +1,19 @@
 import { JsonUrlAsset } from "../../shared/types";
 
 export interface NewJsonUrlAssetInput {
-	url: string;
-	jsonpath: string;
+  url: string;
+  jsonpath: string;
 }
 
 export interface FetchManifestsResponse {
-	pendingOrSavedManifestTxId: string;
-	latestManifestTxId: string;
+  pendingOrSavedManifestTxId: string;
+  latestManifestTxId: string;
 }
 
 interface JsonUrlAssetWithPending extends JsonUrlAsset {
-	isPending: boolean;
+  isPending: boolean;
 }
 
 export type ManifestWithPending = {
-	[x in string]: JsonUrlAssetWithPending
+  [x in string]: JsonUrlAssetWithPending
 }

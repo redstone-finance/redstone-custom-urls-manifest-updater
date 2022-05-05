@@ -2,8 +2,8 @@ import { DataFeed } from "../../shared/types";
 import { buildStore } from "./store/store";
 
 export interface CustomUrlsBody {
-	url: string;
-	jsonpath: string;
+  url: string;
+  jsonpath: string;
 }
 
 export interface EvolveState {

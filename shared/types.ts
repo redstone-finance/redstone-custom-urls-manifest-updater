@@ -1,8 +1,8 @@
 export interface JsonUrlAsset {
-	customUrlDetails: {
-		url: string;
-		jsonpath: string;
-	};
+  customUrlDetails: {
+    url: string;
+    jsonpath: string;
+  };
 }
 
 export type Manifest = { [x in string]: JsonUrlAsset };
@@ -18,8 +18,8 @@ export interface DataFeed {
 export interface RedstoneOraclesInput {
   function: "getDataFeedDetailsById"
   data: {
-		id: string
-	}
+    id: string
+  }
 }
 
 export interface DataFeedWithId extends DataFeed {

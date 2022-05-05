@@ -4,9 +4,9 @@ import fs from "fs";
 import path from "path";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import {
-	SmartWeave,
-	SmartWeaveNodeFactory,
-	Contract
+  SmartWeave,
+  SmartWeaveNodeFactory,
+  Contract
 } from "redstone-smartweave";
 import { evaluatePendingOrSavedManifestTxId } from "../src/modules/cron";
 import { buildStore } from "../src/store/store";
@@ -52,14 +52,14 @@ describe("Cron", () => {
       contractAdmins: [walletAddress],
       nodes: {},
       dataFeeds: {
-				'redstone-custom-urls-demo': {
-					name: 'redstone-custom-urls-demo',
-					manifestTxId: 'testManifestTxId',
-					logo: 'testLogo',
-					description: 'testDescription',
-					admin: walletAddress
-				}
-			},
+        'redstone-custom-urls-demo': {
+          name: 'redstone-custom-urls-demo',
+          manifestTxId: 'testManifestTxId',
+          logo: 'testLogo',
+          description: 'testDescription',
+          admin: walletAddress
+        }
+      },
     };
 
     const contractTxId = await smartweave.createContract.deploy({
@@ -77,34 +77,34 @@ describe("Cron", () => {
     await arlocal.stop();
   });
 
-	describe('evaluatePendingOrSavedManifestTxId', () => {
-		let store: Store;
-	
-		beforeEach(() => {
-			store = buildStore();
-		});
+  describe('evaluatePendingOrSavedManifestTxId', () => {
+    let store: Store;
+  
+    beforeEach(() => {
+      store = buildStore();
+    });
 
-		test('latestManifestTxId is equal to pendingOrSavedManifestTxId', async () => {
-			store.updateLatestManifestTxId('testManifestTxId');
-			store.updatePendingOrSavedManifestTxId('testManifestTxId');
-			const state = (await contract.readState()).state;
-			const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
-			await evaluatePendingOrSavedManifestTxId(contract, store);
-			expect(store.getLatestManifestTxId()).toBe('testManifestTxId');
-			expect(store.getPendingOrSavedManifestTxId()).toBe('testManifestTxId');
-			expect(dataFeed.manifestTxId).toBe('testManifestTxId');
-		});
+    test('latestManifestTxId is equal to pendingOrSavedManifestTxId', async () => {
+      store.updateLatestManifestTxId('testManifestTxId');
+      store.updatePendingOrSavedManifestTxId('testManifestTxId');
+      const state = (await contract.readState()).state;
+      const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
+      await evaluatePendingOrSavedManifestTxId(contract, store);
+      expect(store.getLatestManifestTxId()).toBe('testManifestTxId');
+      expect(store.getPendingOrSavedManifestTxId()).toBe('testManifestTxId');
+      expect(dataFeed.manifestTxId).toBe('testManifestTxId');
+    });
 
-		test('latestManifestTxId is not equal to pendingOrSavedManifestTxId', async () => {
-			store.updateLatestManifestTxId('newTestManifestTxId');
-			store.updatePendingOrSavedManifestTxId('testManifestTxId');
-			await evaluatePendingOrSavedManifestTxId(contract, store);
-			await mineBlock(arweave);
-			const state = (await contract.readState()).state;
-			const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
-			expect(store.getLatestManifestTxId()).toBe('newTestManifestTxId');
-			expect(store.getPendingOrSavedManifestTxId()).toBe('newTestManifestTxId');
-			expect(dataFeed.manifestTxId).toBe('newTestManifestTxId');
-		});
-	});
+    test('latestManifestTxId is not equal to pendingOrSavedManifestTxId', async () => {
+      store.updateLatestManifestTxId('newTestManifestTxId');
+      store.updatePendingOrSavedManifestTxId('testManifestTxId');
+      await evaluatePendingOrSavedManifestTxId(contract, store);
+      await mineBlock(arweave);
+      const state = (await contract.readState()).state;
+      const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
+      expect(store.getLatestManifestTxId()).toBe('newTestManifestTxId');
+      expect(store.getPendingOrSavedManifestTxId()).toBe('newTestManifestTxId');
+      expect(dataFeed.manifestTxId).toBe('newTestManifestTxId');
+    });
+  });
 });
