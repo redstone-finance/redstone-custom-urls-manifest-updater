@@ -8,7 +8,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 
 export const initBundlr = () => {
   const jwk = JSON.parse(process.env.JWK_WALLET) as JWKInterface;
-  return new Bundlr('https://node2.bundlr.network', 'arweave', jwk);
+  return new Bundlr('https://node1.bundlr.network', 'arweave', jwk);
 };
 
 export const calculateId = (url: string, jsonpath: string) => {
