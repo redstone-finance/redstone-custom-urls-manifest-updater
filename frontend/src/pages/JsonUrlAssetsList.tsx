@@ -13,6 +13,9 @@ const JsonUrlAssetsList = () => {
     return <Loader />;
   }
 
+  const assetsSorted = Object.entries(data)
+    .sort(([,left], [,right]) => Number(left.isPending) - Number(right.isPending));
+
   return (
     <Card>
       <div className="flex justify-between align-center overflow-auto">
@@ -24,7 +27,7 @@ const JsonUrlAssetsList = () => {
           Create new
         </button>
       </div>
-      {Object.entries(data).map(([key, value]) => (
+      {assetsSorted.map(([key, value]) => (
         <div
           key={key}
           className={`shadow-3xl cursor-pointer hover:scale-105 hover:transition-all
@@ -36,7 +39,7 @@ const JsonUrlAssetsList = () => {
             Pending
           </div>}
           <div
-            className="flex rounded align-center"
+            className="flex rounded align-center gap-5"
             onClick={() => navigate(key)}
           >
             <div className="w-1/6">
@@ -45,11 +48,11 @@ const JsonUrlAssetsList = () => {
                 {shortenCustomOracleId(key)}
               </p>
             </div>
-            <div className="w-4/6">
+            <div className="w-3/6">
               <p className="text-xs text-sky-900 font-bold">URL</p>
               <p className="text-sm text-neutral-600 truncate">{value.customUrlDetails.url}</p>
             </div>
-            <div className="w-1/4">
+            <div className="w-2/6">
               <p className="text-xs text-sky-900 font-bold">JSON path</p>
               <p className="text-sm text-neutral-600 truncate">{value.customUrlDetails.jsonpath}</p>
             </div>
