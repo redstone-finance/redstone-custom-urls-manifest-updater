@@ -24,7 +24,7 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "dev": "parcel index.html",
+    "dev": "rm -rf .parcel-cache && parcel index.html",
     "build": "parcel build index.html"
   },
   "eslintConfig": {

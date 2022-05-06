@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config();
 import { ethers } from "ethers";
 import Bundlr from '@bundlr-network/client';
 import { Manifest } from "../../shared/types";

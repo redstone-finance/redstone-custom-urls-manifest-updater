@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config();
 import { Contract } from "redstone-smartweave";
 import { Store } from "../types";
 
