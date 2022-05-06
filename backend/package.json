@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -r dist && tsc",
+    "build": "rm -rf dist && tsc",
     "dev": "yarn build && cp .env dist/backend && node dist/backend/index.js",
     "start": "yarn build && node dist/backend/index.js"
   },
