@@ -1,6 +1,8 @@
+const INITIAL_MANIFEST_TX_ID = "iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q";
+
 export const buildStore = () => {
-  let latestManifestTxId = 'iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q';
-  let pendingOrSavedManifestTxId = 'iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q';
+  let latestManifestTxId = INITIAL_MANIFEST_TX_ID;
+  let pendingOrSavedManifestTxId = INITIAL_MANIFEST_TX_ID;
 
   const getLatestManifestTxId = () => latestManifestTxId;
   const getPendingOrSavedManifestTxId = () => pendingOrSavedManifestTxId;

@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 import { ethers } from "ethers";
-import Bundlr from '@bundlr-network/client';
+import Bundlr from "@bundlr-network/client";
 import { Manifest } from "../../shared/types";
-import { JWKInterface } from 'arweave/node/lib/wallet';
+import { JWKInterface } from "arweave/node/lib/wallet";
 
 export const initBundlr = () => {
   const jwk = JSON.parse(process.env.JWK_WALLET) as JWKInterface;
-  return new Bundlr('https://node1.bundlr.network', 'arweave', jwk);
+  return new Bundlr("https://node1.bundlr.network", "arweave", jwk);
 };
 
 export const calculateId = (url: string, jsonpath: string) => {

@@ -52,11 +52,11 @@ describe("Cron", () => {
       contractAdmins: [walletAddress],
       nodes: {},
       dataFeeds: {
-        'redstone-custom-urls-demo': {
-          name: 'redstone-custom-urls-demo',
-          manifestTxId: 'testManifestTxId',
-          logo: 'testLogo',
-          description: 'testDescription',
+        "redstone-custom-urls-demo": {
+          name: "redstone-custom-urls-demo",
+          manifestTxId: "testManifestTxId",
+          logo: "testLogo",
+          description: "testDescription",
           admin: walletAddress
         }
       },
@@ -77,34 +77,34 @@ describe("Cron", () => {
     await arlocal.stop();
   });
 
-  describe('evaluatePendingOrSavedManifestTxId', () => {
+  describe("evaluatePendingOrSavedManifestTxId", () => {
     let store: Store;
   
     beforeEach(() => {
       store = buildStore();
     });
 
-    test('latestManifestTxId is equal to pendingOrSavedManifestTxId', async () => {
-      store.updateLatestManifestTxId('testManifestTxId');
-      store.updatePendingOrSavedManifestTxId('testManifestTxId');
+    test("latestManifestTxId is equal to pendingOrSavedManifestTxId", async () => {
+      store.updateLatestManifestTxId("testManifestTxId");
+      store.updatePendingOrSavedManifestTxId("testManifestTxId");
       const state = (await contract.readState()).state;
-      const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
+      const dataFeed = state.dataFeeds["redstone-custom-urls-demo"];
       await evaluatePendingOrSavedManifestTxId(contract, store);
-      expect(store.getLatestManifestTxId()).toBe('testManifestTxId');
-      expect(store.getPendingOrSavedManifestTxId()).toBe('testManifestTxId');
-      expect(dataFeed.manifestTxId).toBe('testManifestTxId');
+      expect(store.getLatestManifestTxId()).toBe("testManifestTxId");
+      expect(store.getPendingOrSavedManifestTxId()).toBe("testManifestTxId");
+      expect(dataFeed.manifestTxId).toBe("testManifestTxId");
     });
 
-    test('latestManifestTxId is not equal to pendingOrSavedManifestTxId', async () => {
-      store.updateLatestManifestTxId('newTestManifestTxId');
-      store.updatePendingOrSavedManifestTxId('testManifestTxId');
+    test("latestManifestTxId is not equal to pendingOrSavedManifestTxId", async () => {
+      store.updateLatestManifestTxId("newTestManifestTxId");
+      store.updatePendingOrSavedManifestTxId("testManifestTxId");
       await evaluatePendingOrSavedManifestTxId(contract, store);
       await mineBlock(arweave);
       const state = (await contract.readState()).state;
-      const dataFeed = state.dataFeeds['redstone-custom-urls-demo'];
-      expect(store.getLatestManifestTxId()).toBe('newTestManifestTxId');
-      expect(store.getPendingOrSavedManifestTxId()).toBe('newTestManifestTxId');
-      expect(dataFeed.manifestTxId).toBe('newTestManifestTxId');
+      const dataFeed = state.dataFeeds["redstone-custom-urls-demo"];
+      expect(store.getLatestManifestTxId()).toBe("newTestManifestTxId");
+      expect(store.getPendingOrSavedManifestTxId()).toBe("newTestManifestTxId");
+      expect(dataFeed.manifestTxId).toBe("newTestManifestTxId");
     });
   });
 });

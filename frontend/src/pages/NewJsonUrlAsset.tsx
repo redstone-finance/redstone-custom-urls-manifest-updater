@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
-import js from 'jsonpath';
+import js from "jsonpath";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import { Spinner } from "../components/Loader";
@@ -11,10 +11,10 @@ import { NewJsonUrlAssetInput } from "../types";
 
 const NewJsonUrlAsset = () => {
   const navigate = useNavigate();
-  const [url, setUrl] = useState('');
-  const [jsonpath, setJsonpath] = useState('');
-  const [stringJson, setStringJson] = useState('');
-  const [jsonpathMatchResult, setJsonpathMatchResult] = useState('');
+  const [url, setUrl] = useState("");
+  const [jsonpath, setJsonpath] = useState("");
+  const [stringJson, setStringJson] = useState("");
+  const [jsonpathMatchResult, setJsonpathMatchResult] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -37,10 +37,10 @@ const NewJsonUrlAsset = () => {
       if (matchResult.length > 0) {
         setJsonpathMatchResult(JSON.stringify(matchResult));
       } else {
-        setJsonpathMatchResult('');
+        setJsonpathMatchResult("");
       }
     } catch {
-      setJsonpathMatchResult('');
+      setJsonpathMatchResult("");
     }
   };
 
@@ -50,7 +50,7 @@ const NewJsonUrlAsset = () => {
       try {
         setStringJson(jsonAsString);
       } catch {
-        setStringJson('');
+        setStringJson("");
       }
       handleJsonpathQuery(jsonAsString);
     }
@@ -62,7 +62,7 @@ const NewJsonUrlAsset = () => {
     return axios.post(url, newCustomUrl);
   }, {
     onError: () => setIsModalOpen(true),
-    onSuccess: () => navigate('/')
+    onSuccess: () => navigate("/")
   });
 
   return (
