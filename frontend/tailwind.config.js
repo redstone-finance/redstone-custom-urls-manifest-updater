@@ -6,10 +6,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        redstone: '#fd627a'
+        redstone: "#fd627a"
       },
       boxShadow: {
-        '3xl': '2px 2px 15px 0 rgba(0, 0, 0, 0.1);',
+        "3xl": "2px 2px 15px 0 rgba(0, 0, 0, 0.1);",
       }
     },
   },

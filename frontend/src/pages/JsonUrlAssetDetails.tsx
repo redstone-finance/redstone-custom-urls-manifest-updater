@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
-import js from 'jsonpath';
+import js from "jsonpath";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
 import { fetchAsset } from "../utils";
 
 const JsonUrlAssetDetails = () => {
-  const [jsonPathValue, setJsonPathValue] = useState('');
-  const [json, setJson] = useState('');
+  const [jsonPathValue, setJsonPathValue] = useState("");
+  const [json, setJson] = useState("");
   const { id } = useParams();;
 
   const { isLoading, data } = useQuery(`assets-${id}`, () => {
@@ -29,7 +29,7 @@ const JsonUrlAssetDetails = () => {
       setJson(JSON.stringify(manifest));
       return manifest;
     } catch {
-      setJson('');
+      setJson("");
     }
   };
 
@@ -41,10 +41,10 @@ const JsonUrlAssetDetails = () => {
       if (jsonPathValueFromManifest.length > 0) {
         setJsonPathValue(JSON.stringify(jsonPathValueFromManifest));
       } else {
-        setJsonPathValue('');
+        setJsonPathValue("");
       }
     } catch {
-      setJsonPathValue('');
+      setJsonPathValue("");
     }
   };
 
@@ -56,7 +56,7 @@ const JsonUrlAssetDetails = () => {
             ID
           </p>
           <p className="text-md text-neutral-600">
-            {data?.id ?? '-'}
+            {data?.id ?? "-"}
           </p>
         </div>
         <div>
@@ -64,7 +64,7 @@ const JsonUrlAssetDetails = () => {
             URL
           </p>
           <p className="text-md text-neutral-600">
-            {data?.url ?? '-'}
+            {data?.url ?? "-"}
           </p>
         </div>
         <div>
@@ -72,7 +72,7 @@ const JsonUrlAssetDetails = () => {
             JSON path
           </p>
           <p className="text-md text-neutral-600">
-            {data?.jsonpath ?? '-'}
+            {data?.jsonpath ?? "-"}
           </p>
         </div>
       </div>

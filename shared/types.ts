@@ -16,10 +16,10 @@ export interface DataFeed {
 }
 
 export interface RedstoneOraclesInput {
-  function: "getDataFeedDetailsById"
+  function: "getDataFeedDetailsById";
   data: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export interface DataFeedWithId extends DataFeed {

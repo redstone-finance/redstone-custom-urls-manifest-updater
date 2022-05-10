@@ -7,7 +7,7 @@ import { fetchAssets, shortenCustomOracleId } from "../utils";
 const JsonUrlAssetsList = () => {
   const navigate = useNavigate();
 
-  const { isLoading, data } = useQuery('assets', fetchAssets);
+  const { isLoading, data } = useQuery("assets", fetchAssets);
 
   if (isLoading || !data) {
     return <Loader />;
@@ -21,7 +21,7 @@ const JsonUrlAssetsList = () => {
       <div className="flex justify-between align-center overflow-auto">
         <h2 className="text-xl text-neutral-700 font-bold">Custom URL Oracles</h2>
         <button
-          onClick={() => navigate('/create-new')}
+          onClick={() => navigate("/create-new")}
           className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
         >
           Create new

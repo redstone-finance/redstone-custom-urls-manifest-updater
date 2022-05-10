@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
-import express from 'express';
-import cors from 'cors';
-import { getOracleContract } from '../shared/utils';
-import { buildStore } from './src/store/store';
-import { buildRoutes } from './src/routes/routes';
-import { buildCron } from './src/modules/cron';
+import express from "express";
+import cors from "cors";
+import { getOracleContract } from "../shared/utils";
+import { buildStore } from "./src/store/store";
+import { buildRoutes } from "./src/routes/routes";
+import { buildCron } from "./src/modules/cron";
 
 const app = express();
 app.use(express.json());
@@ -21,7 +21,7 @@ cron.startUpdatingPendingOrSavedManifestTxId();
 
 app.use(routes);
 
-app.use(express.static('../frontend/dist'));
+app.use(express.static("../frontend/dist"));
 
 app.listen(port, () => {
   console.log(`Custom URL manifest updater stared at port: ${port}`)

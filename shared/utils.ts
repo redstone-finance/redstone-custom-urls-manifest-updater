@@ -11,16 +11,16 @@ export const fetchManifest = async (manifestTransactionId: string) => {
 
 export const initArweave = () => {
   return Arweave.init({
-    host: 'arweave.net',
+    host: "arweave.net",
     port: 443,
-    protocol: 'https'
+    protocol: "https"
   });
 };
 
-export const getOracleContract = (jwk: JWKInterface) => {
+export const getOracleContract = (jwk?: JWKInterface) => {
   const arweave = initArweave();
-  return SmartWeaveNodeFactory
+  const contract = SmartWeaveNodeFactory
     .memCached(arweave)
-    .contract(oracleRegistryAddress)
-    .connect(jwk);
+    .contract(oracleRegistryAddress);
+  return !!jwk ? contract.connect(jwk) : contract;
 };

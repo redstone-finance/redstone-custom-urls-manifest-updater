@@ -3,7 +3,7 @@
 ## Run locally
 In order to run locally you need to provide `.env` files to `backend` and `frontend` folders.
 
-Frontend .env file requires `BACKEND_URL` and `JWK_WALLET` values
+Frontend .env file requires `BACKEND_URL`
 
 Backend .env file requires `PORT` and `JWK_WALLET` values
 

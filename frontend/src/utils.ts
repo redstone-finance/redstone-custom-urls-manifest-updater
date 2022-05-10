@@ -1,5 +1,4 @@
 import { Contract } from "redstone-smartweave";
-import { JWKInterface } from "arweave/node/lib/wallet";
 import { RedstoneOraclesInput, DataFeedWithId } from "../../shared/types";
 import {  fetchManifest, getOracleContract } from "../../shared/utils";
 import { FetchManifestsResponse, ManifestWithPending } from "./types";
@@ -18,15 +17,23 @@ export const fetchDataFeed = async (contract: Contract) => {
 export const fetchAssets = async () => {
   const manifestFromContract = await fetchManifestFromContract();
   const manifestFromGateway = await fetchManifestFromGateway();
-  return { ...manifestFromGateway, ...manifestFromContract };
+
+  // It's important that manifestFromContract goes after manifestFromGateway
+  // beacause it should overwrite some isPending values
+  const mergedManifest = { ...manifestFromGateway, ...manifestFromContract };
+
+  // Logging (to help with debugging)
+  console.log({
+    manifestFromContract,
+    manifestFromGateway,
+    mergedManifest,
+  });
+
+  return mergedManifest;
 };
 
 const fetchManifestFromContract = async () => {
-  if (!process.env.JWK_WALLET) {
-    throw Error('Missing JWK wallet');
-  }
-  const jwk = JSON.parse(process.env.JWK_WALLET) as JWKInterface;
-  const contract = getOracleContract(jwk);
+  const contract = getOracleContract();
   const dataFeed = await fetchDataFeed(contract);
   const manifest = await fetchManifest(dataFeed.manifestTxId);
   return Object.entries(manifest).reduce((object, [ key, value ]) => ({
@@ -34,7 +41,7 @@ const fetchManifestFromContract = async () => {
     [key]: {
       ...value,
       isPending: false
-    }
+    },
   }), {} as ManifestWithPending);
 };
 
@@ -43,7 +50,7 @@ const fetchManifestFromGateway = async () => {
   const url = `${backendUrl}/manifests`;
   const manifestsTxIdsResponse = await fetch(url);
   const manifestsTxIds = await manifestsTxIdsResponse.json() as FetchManifestsResponse;
-  const manifest = await fetchManifest(manifestsTxIds.latestManifestTxId)
+  const manifest = await fetchManifest(manifestsTxIds.latestManifestTxId);
   return Object.entries(manifest).reduce((object, [ key, value ]) => ({
     ...object,
     [key]: {
