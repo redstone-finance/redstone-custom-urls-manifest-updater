@@ -9,12 +9,13 @@ export const evaluatePendingOrSavedManifestTxId = async (
   contract: Contract,
   store: Store
 ) => {
+  await store.initTxIdsInStoreIfNeeded();
   const latestManifestTxId = store.getLatestManifestTxId();
   const pendingOrSavedManifestTxId = store.getPendingOrSavedManifestTxId();
   if (latestManifestTxId === pendingOrSavedManifestTxId) {
     return;
   }
-  await contract.writeInteraction({
+  await contract.bundleInteraction({
     function: 'updateDataFeed',
     data: {
       id: 'redstone-custom-urls-demo',

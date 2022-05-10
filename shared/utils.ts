@@ -1,8 +1,11 @@
 import Arweave from "arweave";
+import ArweaveService from "redstone-node/dist/src/arweave/ArweaveService";
 import { SmartWeaveNodeFactory } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { arweaveUrl, oracleRegistryAddress } from "./config";
 import { Manifest } from "./types";
+
+export const DATA_FEED_ID = "redstone-custom-urls-demo";
 
 export const fetchManifest = async (manifestTransactionId: string) => {
   const fetchManifestResponse = await fetch(`${arweaveUrl}/${manifestTransactionId}`);
@@ -15,6 +18,12 @@ export const initArweave = () => {
     port: 443,
     protocol: "https"
   });
+};
+
+export const getCurrentManifestTxIdForCustomUrls = async () => {
+  const arweaveService = new ArweaveService();
+  const contractState = await arweaveService.getOracleRegistryContractState();
+  return contractState.dataFeeds[DATA_FEED_ID].manifestTxId;
 };
 
 export const getOracleContract = (jwk?: JWKInterface) => {

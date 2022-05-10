@@ -1,8 +1,10 @@
 import { Contract } from "redstone-smartweave";
 import { RedstoneOraclesInput, DataFeedWithId } from "../../shared/types";
-import {  fetchManifest, getOracleContract } from "../../shared/utils";
+import {
+  fetchManifest,
+  getCurrentManifestTxIdForCustomUrls,
+} from "../../shared/utils";
 import { FetchManifestsResponse, CustomUrlsList } from "./types";
-import dummyWalletJWK from "./dummy-wallet.json";
 
 export const shortenCustomOracleId = (id: string) => `${id.slice(0, 6)}...${id.slice(-4)}`;
 
@@ -34,9 +36,8 @@ export const fetchAssets = async () => {
 };
 
 const fetchManifestFromContract = async () => {
-  const contract = getOracleContract(dummyWalletJWK);
-  const dataFeed = await fetchDataFeed(contract);
-  const manifest = await fetchManifest(dataFeed.manifestTxId);
+  const manifestTxId = await getCurrentManifestTxIdForCustomUrls();
+  const manifest = await fetchManifest(manifestTxId);
 
   return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
     ...object,

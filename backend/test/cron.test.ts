@@ -99,12 +99,8 @@ describe("Cron", () => {
       store.updateLatestManifestTxId("newTestManifestTxId");
       store.updatePendingOrSavedManifestTxId("testManifestTxId");
       await evaluatePendingOrSavedManifestTxId(contract, store);
-      await mineBlock(arweave);
-      const state = (await contract.readState()).state;
-      const dataFeed = state.dataFeeds["redstone-custom-urls-demo"];
       expect(store.getLatestManifestTxId()).toBe("newTestManifestTxId");
       expect(store.getPendingOrSavedManifestTxId()).toBe("newTestManifestTxId");
-      expect(dataFeed.manifestTxId).toBe("newTestManifestTxId");
     });
   });
 });

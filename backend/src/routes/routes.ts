@@ -8,6 +8,7 @@ const router = express.Router();
 
 export const buildRoutes = (store: Store) => {
   router.post<CustomUrlsBody>("/api/custom-urls", async (req, res) => {
+    await store.initTxIdsInStoreIfNeeded();
     const latestManifestTxId = store.getLatestManifestTxId();
     const manifest = await fetchManifest(latestManifestTxId);
     const { url, jsonpath } = req.body;
