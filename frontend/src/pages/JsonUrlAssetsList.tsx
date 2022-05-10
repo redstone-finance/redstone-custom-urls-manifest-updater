@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
@@ -6,6 +7,7 @@ import { fetchAssets, shortenCustomOracleId } from "../utils";
 
 const JsonUrlAssetsList = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState('');
 
   const { isLoading, data } = useQuery("assets", fetchAssets);
 
@@ -16,10 +18,27 @@ const JsonUrlAssetsList = () => {
   const assetsSorted = Object.entries(data)
     .sort(([,left], [,right]) => Number(left.isPending) - Number(right.isPending));
 
+  const assetsFiltered = assetsSorted.filter(([key, value]) => {
+    const searchLowerCase = search.toLowerCase();
+    return key.toLowerCase().includes(searchLowerCase) ||
+      value.customUrlDetails.jsonpath.toLowerCase().includes(searchLowerCase) ||
+      value.customUrlDetails.url.toLowerCase().includes(searchLowerCase);
+  });
+
   return (
     <Card>
-      <div className="flex justify-between align-center overflow-auto">
-        <h2 className="text-xl text-neutral-700 font-bold">Custom URL Oracles</h2>
+      <div className="flex justify-between items-center overflow-auto">
+        <div className="flex gap-4 items-center">
+          <h2 className="text-xl text-neutral-700 font-bold">
+            Custom URL Oracles
+          </h2>
+          <input
+            className="shadow border rounded w-half py-2 px-3 text-neutral-600 focus:outline-none focus:shadow-outline"
+            type="text"
+            placeholder="Search..."
+            onChange={(event) => setSearch(event.target.value)}
+          />
+        </div>
         <button
           onClick={() => navigate("/create-new")}
           className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
@@ -27,7 +46,7 @@ const JsonUrlAssetsList = () => {
           Create new
         </button>
       </div>
-      {assetsSorted.map(([key, value]) => (
+      {assetsFiltered.map(([key, value]) => (
         <div
           key={key}
           className={`shadow-3xl cursor-pointer hover:scale-105 hover:transition-all

@@ -74,7 +74,8 @@ const NewJsonUrlAsset = () => {
           </label>
           <input
             className="shadow border rounded w-full py-2 px-3 text-neutral-600 focus:outline-none focus:shadow-outline"
-            id="url" type="text"
+            id="url"
+            type="text"
             placeholder="URL"
             onChange={(event) => setUrl(event.target.value)}
           />
@@ -85,7 +86,8 @@ const NewJsonUrlAsset = () => {
           </label>
           <input
             className="shadow border rounded w-full py-2 px-3 text-neutral-600  focus:outline-none focus:shadow-outline"
-            id="jsonpath" type="text"
+            id="jsonpath"
+            type="text"
             placeholder="JSON path"
             onChange={(event) => setJsonpath(event.target.value)}
           />
