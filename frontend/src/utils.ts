@@ -36,6 +36,7 @@ export const fetchAssets = async () => {
 };
 
 const fetchManifestFromContract = async () => {
+  console.log("Fetching current manifest from smart contract");
   const manifestTxId = await getCurrentManifestTxIdForCustomUrls();
   const manifest = await fetchManifest(manifestTxId);
 
@@ -49,11 +50,13 @@ const fetchManifestFromContract = async () => {
 };
 
 const fetchManifestFromGateway = async () => {
+  console.log("Fetching current manifest from smart backend");
   const backendUrl = process.env.BACKEND_URL;
   const url = `${backendUrl}/manifests`;
   const manifestsTxIdsResponse = await fetch(url);
   const manifestsTxIds = await manifestsTxIdsResponse.json() as FetchManifestsResponse;
   const manifest = await fetchManifest(manifestsTxIds.latestManifestTxId);
+
   return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
     ...object,
     [key]: {
