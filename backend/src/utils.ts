@@ -16,5 +16,5 @@ export const calculateId = (url: string, jsonpath: string) => {
 };
 
 export const checkIfSubscribed = (manifest: Manifest, url: string, jsonpath: string) => {
-  return Object.keys(manifest).some((id) => id === calculateId(url, jsonpath));
+  return Object.keys(manifest.tokens).some((id) => id === calculateId(url, jsonpath));
 };

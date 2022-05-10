@@ -1,4 +1,4 @@
-const INITIAL_MANIFEST_TX_ID = "iLTjCD_DvYOGpsu2dh4esTs-TaOsVjjzmoA7VGJYG1Q";
+const INITIAL_MANIFEST_TX_ID = "m0wYHiGUDNaiSo6GEE83CK0cRim4NLhqytx2P2Y7WF0";
 
 export const buildStore = () => {
   let latestManifestTxId = INITIAL_MANIFEST_TX_ID;
@@ -20,5 +20,5 @@ export const buildStore = () => {
     getPendingOrSavedManifestTxId,
     updateLatestManifestTxId,
     updatePendingOrSavedManifestTxId
-  }
+  };
 };

@@ -5,7 +5,27 @@ export interface JsonUrlAsset {
   };
 }
 
-export type Manifest = { [x in string]: JsonUrlAsset };
+export interface Manifest {
+  interval: number;
+  priceAggregator: string;
+  defaultSource?: string[];
+  sourceTimeout: number;
+  maxPriceDeviationPercent: number,
+  evmChainId: number,
+  tokens: { [symbol: string]: TokenConfig };
+  enableArweaveBackup?: boolean;
+}
+
+export interface TokenConfig {
+  source?: string[];
+  maxPriceDeviationPercent?: number;
+  customUrlDetails: CustomUrlDetails;
+};
+
+export interface CustomUrlDetails {
+  url: string;
+  jsonpath: string;
+};
 
 export interface DataFeed {
   name: string;

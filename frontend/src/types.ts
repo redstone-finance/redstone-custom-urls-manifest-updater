@@ -14,6 +14,6 @@ interface JsonUrlAssetWithPending extends JsonUrlAsset {
   isPending: boolean;
 }
 
-export type ManifestWithPending = {
-  [x in string]: JsonUrlAssetWithPending
+export type CustomUrlsList = {
+  [assetId in string]: JsonUrlAssetWithPending
 }

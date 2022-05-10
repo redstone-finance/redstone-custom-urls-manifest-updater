@@ -4,7 +4,7 @@ import { calculateId, initBundlr } from "../utils";
 export const generateNewManifest = (manifest: Manifest, url: string, jsonpath: string) => {
   const id = calculateId(url, jsonpath);
   const newManifest = { ...manifest };
-  newManifest[id] = {
+  newManifest.tokens[id] = {
     customUrlDetails: { url, jsonpath },
   };
   return newManifest;

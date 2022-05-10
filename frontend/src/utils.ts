@@ -1,7 +1,7 @@
 import { Contract } from "redstone-smartweave";
 import { RedstoneOraclesInput, DataFeedWithId } from "../../shared/types";
 import {  fetchManifest, getOracleContract } from "../../shared/utils";
-import { FetchManifestsResponse, ManifestWithPending } from "./types";
+import { FetchManifestsResponse, CustomUrlsList } from "./types";
 
 export const shortenCustomOracleId = (id: string) => `${id.slice(0, 6)}...${id.slice(-4)}`;
 
@@ -36,13 +36,13 @@ const fetchManifestFromContract = async () => {
   const contract = getOracleContract();
   const dataFeed = await fetchDataFeed(contract);
   const manifest = await fetchManifest(dataFeed.manifestTxId);
-  return Object.entries(manifest).reduce((object, [ key, value ]) => ({
+  return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
     ...object,
     [key]: {
       ...value,
       isPending: false
     },
-  }), {} as ManifestWithPending);
+  }), {} as CustomUrlsList);
 };
 
 const fetchManifestFromGateway = async () => {
@@ -51,13 +51,13 @@ const fetchManifestFromGateway = async () => {
   const manifestsTxIdsResponse = await fetch(url);
   const manifestsTxIds = await manifestsTxIdsResponse.json() as FetchManifestsResponse;
   const manifest = await fetchManifest(manifestsTxIds.latestManifestTxId);
-  return Object.entries(manifest).reduce((object, [ key, value ]) => ({
+  return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
     ...object,
     [key]: {
       ...value,
       isPending: true
     }
-  }), {} as ManifestWithPending);
+  }), {} as CustomUrlsList);
 };
 
 export const fetchAsset = async (id: string) => {

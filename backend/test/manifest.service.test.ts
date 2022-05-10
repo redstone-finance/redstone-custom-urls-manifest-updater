@@ -28,12 +28,15 @@ describe("Manifest service", () => {
       const newManifest = generateNewManifest(manifest, "https://newUrl", "newJsonpath");
       expect(newManifest).toEqual({
         ...manifest,
-        "0x16e82b57b6e71a27": {
-          customUrlDetails: {
-            jsonpath: "newJsonpath",
-            url: "https://newUrl",
-          },
-        },
+        tokens: {
+          ...manifest.tokens,
+          "0x16e82b57b6e71a27": {
+            customUrlDetails: {
+              jsonpath: "newJsonpath",
+              url: "https://newUrl"
+            }
+          }
+        }
       });
     });
   });
