@@ -7,12 +7,13 @@ import js from "jsonpath";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import { Spinner } from "../components/Loader";
-import { NewJsonUrlAssetInput } from "../types";
+import { CustomUrlDetails, NewCustomUrlInput } from "../../../shared/types";
 
 const NewJsonUrlAsset = () => {
   const navigate = useNavigate();
   const [url, setUrl] = useState("");
   const [jsonpath, setJsonpath] = useState("");
+  const [comment, setComment] = useState("");
   const [stringJson, setStringJson] = useState("");
   const [jsonpathMatchResult, setJsonpathMatchResult] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +57,7 @@ const NewJsonUrlAsset = () => {
     }
   };
 
-  const mutation = useMutation((newCustomUrl: NewJsonUrlAssetInput) => {
+  const mutation = useMutation((newCustomUrl: NewCustomUrlInput) => {
     const backendUrl = process.env.BACKEND_URL;
     const url = `${backendUrl}/custom-urls`;
     return axios.post(url, newCustomUrl);
@@ -85,11 +86,23 @@ const NewJsonUrlAsset = () => {
             JSON path
           </label>
           <input
-            className="shadow border rounded w-full py-2 px-3 text-neutral-600  focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-2 px-3 text-neutral-600 focus:outline-none focus:shadow-outline"
             id="jsonpath"
             type="text"
             placeholder="JSON path"
             onChange={(event) => setJsonpath(event.target.value)}
+          />
+        </div>
+        <div className="mb-2">
+          <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+            Comment
+          </label>
+          <input
+            className="shadow border rounded w-full py-2 px-3 text-neutral-600 focus:outline-none focus:shadow-outline"
+            id="comment"
+            type="text"
+            placeholder="Comment"
+            onChange={(event) => setComment(event.target.value)}
           />
         </div>
         <button
@@ -127,7 +140,7 @@ const NewJsonUrlAsset = () => {
                 <Spinner />
               ) : (
                 <button
-                  onClick={() => mutation.mutate({ url, jsonpath })}
+                  onClick={() => mutation.mutate({ url, jsonpath, comment })}
                   className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
                 >
                   Subscribe

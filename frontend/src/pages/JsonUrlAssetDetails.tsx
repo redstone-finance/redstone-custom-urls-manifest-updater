@@ -75,6 +75,14 @@ const JsonUrlAssetDetails = () => {
             {data?.jsonpath ?? "-"}
           </p>
         </div>
+        <div>
+          <p className="text-sm text-sky-900 font-bold">
+            Comment
+          </p>
+          <p className="text-md text-neutral-600">
+            {data?.comment ?? "-"}
+          </p>
+        </div>
       </div>
       <button
         onClick={() => fetchJsonPathValue()}

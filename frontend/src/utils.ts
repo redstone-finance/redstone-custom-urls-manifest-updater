@@ -50,7 +50,7 @@ const fetchManifestFromContract = async () => {
 };
 
 const fetchManifestFromGateway = async () => {
-  console.log("Fetching current manifest from smart backend");
+  console.log("Fetching current manifest from backend");
   const backendUrl = process.env.BACKEND_URL;
   const url = `${backendUrl}/manifests`;
   const manifestsTxIdsResponse = await fetch(url);
@@ -68,8 +68,10 @@ const fetchManifestFromGateway = async () => {
 
 export const fetchAsset = async (id: string) => {
   const assets = await fetchAssets();
+  const asset = assets[id];
   return {
-    ...assets[id].customUrlDetails,
+    ...asset.customUrlDetails,
+    comment: asset.comment,
     id
   };
 };

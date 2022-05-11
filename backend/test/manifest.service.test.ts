@@ -25,7 +25,7 @@ describe("Manifest service", () => {
 
   describe("generateNewManifest", () => {
     test("generate new manifest with new custom oracle url and jsonpath", async () => {
-      const newManifest = generateNewManifest(manifest, "https://newUrl", "newJsonpath");
+      const newManifest = generateNewManifest(manifest, "https://newUrl", "newJsonpath", "Test comment");
       expect(newManifest).toEqual({
         ...manifest,
         tokens: {
@@ -34,7 +34,8 @@ describe("Manifest service", () => {
             customUrlDetails: {
               jsonpath: "newJsonpath",
               url: "https://newUrl"
-            }
+            },
+            comment: "Test comment"
           }
         }
       });
