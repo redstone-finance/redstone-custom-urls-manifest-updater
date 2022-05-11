@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
-import { fetchAssets, shortenCustomOracleId } from "../utils";
+import { fetchAssets, shortenCustomOracleId, shortenUrl } from "../utils";
 
 const JsonUrlAssetsList = () => {
   const navigate = useNavigate();
@@ -67,11 +67,15 @@ const JsonUrlAssetsList = () => {
                 {shortenCustomOracleId(key)}
               </p>
             </div>
-            <div className="w-3/6">
-              <p className="text-xs text-sky-900 font-bold">URL</p>
-              <p className="text-sm text-neutral-600 truncate">{value.customUrlDetails.url}</p>
+            <div className="w-2/6">
+              <p className="text-xs text-sky-900 font-bold">Comment</p>
+              <p className="text-sm text-neutral-600 truncate">{value?.comment ?? '-'}</p>
             </div>
             <div className="w-2/6">
+              <p className="text-xs text-sky-900 font-bold">URL</p>
+              <p className="text-sm text-neutral-600">{shortenUrl(value.customUrlDetails.url)}</p>
+            </div>
+            <div className="w-1/6">
               <p className="text-xs text-sky-900 font-bold">JSON path</p>
               <p className="text-sm text-neutral-600 truncate">{value.customUrlDetails.jsonpath}</p>
             </div>
