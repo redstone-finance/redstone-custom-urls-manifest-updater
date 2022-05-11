@@ -8,6 +8,13 @@ import { FetchManifestsResponse, CustomUrlsList } from "./types";
 
 export const shortenCustomOracleId = (id: string) => `${id.slice(0, 6)}...${id.slice(-4)}`;
 
+export const shortenUrl = (url: string) => {
+  if (url.length === 40) {
+    return url;
+  }
+  return `${url.slice(0, 37)}...`;
+};
+
 export const fetchDataFeed = async (contract: Contract) => {
   return (await contract.viewState<RedstoneOraclesInput, DataFeedWithId>({
     function: "getDataFeedDetailsById",
