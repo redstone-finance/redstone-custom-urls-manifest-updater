@@ -1,19 +1,14 @@
-import { JsonUrlAsset } from "../../shared/types";
-
-export interface NewJsonUrlAssetInput {
-  url: string;
-  jsonpath: string;
-}
+import { TokenConfig } from "../../shared/types";
 
 export interface FetchManifestsResponse {
   pendingOrSavedManifestTxId: string;
   latestManifestTxId: string;
 }
 
-interface JsonUrlAssetWithPending extends JsonUrlAsset {
+interface TokenConfigWithPending extends TokenConfig {
   isPending: boolean;
 }
 
 export type CustomUrlsList = {
-  [assetId in string]: JsonUrlAssetWithPending
+  [assetId in string]: TokenConfigWithPending
 }
