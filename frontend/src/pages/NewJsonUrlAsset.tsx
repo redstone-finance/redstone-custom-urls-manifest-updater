@@ -7,7 +7,7 @@ import js from "jsonpath";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import { Spinner } from "../components/Loader";
-import { CustomUrlDetails, NewCustomUrlInput } from "../../../shared/types";
+import { NewCustomUrlInput } from "../../../shared/types";
 
 const NewJsonUrlAsset = () => {
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const NewJsonUrlAsset = () => {
   return (
     <div>
       <Card>
-        <div className="mb-2">
+        <div>
           <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="url">
             URL
           </label>
@@ -81,10 +81,15 @@ const NewJsonUrlAsset = () => {
             onChange={(event) => setUrl(event.target.value)}
           />
         </div>
-        <div className="mb-2">
-          <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
-            JSON path
-          </label>
+        <div>
+          <div className="flex gap-3">
+            <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+              JSON path
+            </label>
+            <a className="text-sm text-slate-500 italic" href="https://jsonpath.com/" target="_blank">
+              (See how JSONPath works)
+            </a>
+          </div>
           <input
             className="shadow border rounded w-full py-2 px-3 text-neutral-600 focus:outline-none focus:shadow-outline"
             id="jsonpath"
@@ -93,7 +98,7 @@ const NewJsonUrlAsset = () => {
             onChange={(event) => setJsonpath(event.target.value)}
           />
         </div>
-        <div className="mb-2">
+        <div>
           <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
             Comment
           </label>
