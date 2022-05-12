@@ -6,6 +6,7 @@ import js from "jsonpath";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
 import { fetchAsset } from "../utils";
+import { getJavascriptCodeExample, getSolidityCodeExample } from "../assets/codeExamples";
 
 const JsonUrlAssetDetails = () => {
   const [jsonPathValue, setJsonPathValue] = useState("");
@@ -111,6 +112,38 @@ const JsonUrlAssetDetails = () => {
             options={ { minimap: { enabled: false }}}
             className="border-2"
           />
+        </div>
+      )}
+      {!!jsonPathValue && (
+        <div>
+          <div className="flex flex-col gap-3">
+            <div>
+              <h4 className="text-base text-neutral-700 font-bold mb-2">
+                Sample Javascript interface
+              </h4>
+              <Editor 
+                height="35vh"
+                defaultLanguage="javascript"
+                width="100%"
+                value={getJavascriptCodeExample(data.id)}
+                options={ { minimap: { enabled: false }}}
+                className="border-2"
+              />
+            </div>
+            <div>
+              <h4 className="text-base text-neutral-700 font-bold mb-2">
+                Sample Solidity Smart contract
+              </h4>
+              <Editor
+                height="50vh"
+                width="100%"
+                defaultLanguage="sol"
+                value={getSolidityCodeExample(data.id)}
+                options={ { minimap: { enabled: false }}}
+                className="border-2"
+              />
+            </div>
+          </div>
         </div>
       )}
     </Card>
