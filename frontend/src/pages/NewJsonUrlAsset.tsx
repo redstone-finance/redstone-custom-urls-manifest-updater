@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
@@ -7,7 +7,7 @@ import js from "jsonpath";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import { Spinner } from "../components/Loader";
-import { CustomUrlDetails, NewCustomUrlInput } from "../../../shared/types";
+import { NewCustomUrlInput } from "../../../shared/types";
 
 const NewJsonUrlAsset = () => {
   const navigate = useNavigate();
@@ -65,6 +65,7 @@ const NewJsonUrlAsset = () => {
     onError: () => setIsModalOpen(true),
     onSuccess: () => navigate("/")
   });
+  const errorMessage = (mutation.error as AxiosError<string>)?.response?.data ?? "";
 
   return (
     <div>
@@ -154,7 +155,7 @@ const NewJsonUrlAsset = () => {
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
         title="There is a problem"
-        text="Introduced pair URL with JSONPath already exists"
+        text={errorMessage}
       />
     </div>
   );
