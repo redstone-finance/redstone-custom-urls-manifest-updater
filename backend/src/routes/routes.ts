@@ -1,8 +1,8 @@
 import express from "express";
 import { sendNewManifest } from "../modules/manifest.service";
+import { validate } from "../modules/validation.service";
 import { fetchManifest } from "../../../shared/utils";
 import { Store } from "../types";
-import { checkIfSubscribed } from "../utils";
 import { NewCustomUrlInput } from "../../../shared/types";
 
 const router = express.Router();
@@ -13,9 +13,9 @@ export const buildRoutes = (store: Store) => {
     const latestManifestTxId = store.getLatestManifestTxId();
     const manifest = await fetchManifest(latestManifestTxId);
     const { url, jsonpath, comment } = req.body;
-    const isAlreadySubscribed = checkIfSubscribed(manifest, url, jsonpath);
-    if (isAlreadySubscribed) {
-      res.sendStatus(400);
+    const validation = await validate(manifest, url, jsonpath);
+    if (validation.isError) {
+      res.status(400).send(validation.errorMessage);
     } else {
       const id = await sendNewManifest(manifest, url, jsonpath, comment);
       store.updateLatestManifestTxId(id);
