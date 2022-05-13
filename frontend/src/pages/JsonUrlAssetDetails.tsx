@@ -108,7 +108,7 @@ const JsonUrlAssetDetails = () => {
           onClick={() => fetchJsonPathValue()}
           className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
         >
-          Test now
+          Test fetching now
         </button>
       </div>
     </Card>
