@@ -22,7 +22,8 @@ const JsonUrlAssetsList = () => {
     const searchLowerCase = search.toLowerCase();
     return key.toLowerCase().includes(searchLowerCase) ||
       value.customUrlDetails.jsonpath.toLowerCase().includes(searchLowerCase) ||
-      value.customUrlDetails.url.toLowerCase().includes(searchLowerCase);
+      value.customUrlDetails.url.toLowerCase().includes(searchLowerCase) ||
+      value.comment?.toLocaleLowerCase().includes(searchLowerCase);
   });
 
   return (
