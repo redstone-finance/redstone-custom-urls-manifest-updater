@@ -3,15 +3,18 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import js from "jsonpath";
 import Card from "../components/Card";
-import Loader from "../components/Loader";
-import { fetchAsset } from "../utils";
-import CodeExamples from "../components/CodeExamples";
+import Loader, { Spinner } from "../components/Loader";
 import JsonPathResults from "../components/JsonPathResults";
+import Modal from "../components/Modal";
+import CodeExamples from "../components/CodeExamples";
+import { fetchAsset } from "../utils";
 
 const JsonUrlAssetDetails = () => {
   const [jsonPathValue, setJsonPathValue] = useState("");
   const [json, setJson] = useState("");
   const [showCodeExamples, setShowCodeExamples] = useState(false);
+  const [isTestLoading, setIsTestLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { id } = useParams();
 
   const { isLoading, data } = useQuery(`assets-${id}`, () => {
@@ -25,13 +28,17 @@ const JsonUrlAssetDetails = () => {
   }
 
   const fetchJson = async () => {
+    setIsTestLoading(true);
     try {
       const response = await fetch(data.url);
       const manifest = await response.json();
       setJson(JSON.stringify(manifest));
+      setIsTestLoading(false);
       return manifest;
     } catch {
       setJson("");
+      setErrorMessage("Cannot fetch JSON from URL");
+      setIsTestLoading(false);
     }
   };
 
@@ -52,7 +59,7 @@ const JsonUrlAssetDetails = () => {
 
   return (
     <Card>
-      <div className="flex flex-col gap-4 mb-5">
+      <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div>
             <p className="text-sm text-sky-900 font-bold">
@@ -64,7 +71,7 @@ const JsonUrlAssetDetails = () => {
           </div>
           <a
             href={`https://app.redstone.finance/#/app/token/${data.id}`}
-            className="bg-white hover:opacity-75 text-redstone font-bold py-2 px-4 rounded-full border-2 border-redstone"
+            className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border-2 border-redstone"
             target="_blank"
           >
             Show historical data
@@ -100,17 +107,24 @@ const JsonUrlAssetDetails = () => {
       <div className="flex gap-5 justify-end">
         <button
           onClick={() => setShowCodeExamples(!showCodeExamples)}
-          className="bg-white hover:opacity-75 text-redstone font-bold py-2 px-4 rounded-full border-2 border-redstone"
+          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border-2 border-redstone"
         >
           {`${showCodeExamples ? "Hide" : "Show"} sample code`}
         </button>
         <button
           onClick={() => fetchJsonPathValue()}
-          className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
+          className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full text-center"
         >
-          Test fetching now
+          {isTestLoading ? <Spinner size={5} /> : "Test fetching now"}
         </button>
       </div>
+      {!!errorMessage && 
+        <Modal
+          closeModal={() => setErrorMessage("")}
+          title="There is a problem"
+          text={errorMessage}
+        />
+      }
     </Card>
   );
 };

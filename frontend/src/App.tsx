@@ -7,19 +7,21 @@ import JsonUrlAssetsList from "./pages/JsonUrlAssetsList";
 import SideBar from "./components/SideBar";
 
 const App = () => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="h-full overflow-auto bg-neutral-100">
+        <div className="h-full bg-neutral-100 overflow-auto">
           <Header />
           <SideBar />
-          <Routes>
-            <Route path="/" element={<JsonUrlAssetsList />} />
-            <Route path="/:id" element={<JsonUrlAssetDetails />} />
-            <Route path="/create-new" element={<NewJsonUrlAsset />} />
-          </Routes>
+          <div className="relative left-[160px] w-[calc(100%-160px)] xl:block xl:left-0 xl:w-full">
+            <Routes>
+              <Route path="/" element={<JsonUrlAssetsList />} />
+              <Route path="/:id" element={<JsonUrlAssetDetails />} />
+              <Route path="/create-new" element={<NewJsonUrlAsset />} />
+            </Routes>
+          </div>
         </div>
       </BrowserRouter>
     </QueryClientProvider>

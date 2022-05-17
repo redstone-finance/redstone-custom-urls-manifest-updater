@@ -16,7 +16,8 @@ const NewJsonUrlAsset = () => {
   const [comment, setComment] = useState("");
   const [stringJson, setStringJson] = useState("");
   const [jsonpathMatchResult, setJsonpathMatchResult] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTestLoading, setIsTestLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (stringJson) {
@@ -26,9 +27,16 @@ const NewJsonUrlAsset = () => {
 
   const fetchJson = async () => {
     if (url) {
-      const response = await fetch(url);
-      const json = await response.json();
-      return JSON.stringify(json);
+      setIsTestLoading(true);
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setIsTestLoading(false);
+        return JSON.stringify(json);
+      } catch {
+        setErrorMessage("Cannot fetch JSON from URL");
+        setIsTestLoading(false);
+      }
     }
   };
 
@@ -62,10 +70,9 @@ const NewJsonUrlAsset = () => {
     const url = `${backendUrl}/custom-urls`;
     return axios.post(url, newCustomUrl);
   }, {
-    onError: () => setIsModalOpen(true),
+    onError: (error: AxiosError<string>) => setErrorMessage(error?.response?.data ?? ""),
     onSuccess: () => navigate("/")
   });
-  const errorMessage = (mutation.error as AxiosError<string>)?.response?.data ?? "";
 
   return (
     <div>
@@ -113,9 +120,9 @@ const NewJsonUrlAsset = () => {
         </div>
         <button
           onClick={() => handleEvaluate()}
-          className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
+          className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full"
         >
-          Evaluate
+          {isTestLoading ? <Spinner size={5} /> : "Evaluate"}
         </button>
         {stringJson && (
           <div className="flex justify-between">
@@ -147,7 +154,7 @@ const NewJsonUrlAsset = () => {
               ) : (
                 <button
                   onClick={() => mutation.mutate({ url, jsonpath, comment })}
-                  className="bg-redstone hover:opacity-75 text-white font-bold py-2 px-4 rounded-full"
+                  className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full"
                 >
                   Subscribe
                 </button>
@@ -156,12 +163,13 @@ const NewJsonUrlAsset = () => {
           </div>
         )}
       </Card>
-      <Modal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        title="There is a problem"
-        text={errorMessage}
-      />
+      {!!errorMessage && 
+        <Modal
+          closeModal={() => setErrorMessage("")}
+          title="There is a problem"
+          text={errorMessage}
+        />
+      }
     </div>
   );
 };
