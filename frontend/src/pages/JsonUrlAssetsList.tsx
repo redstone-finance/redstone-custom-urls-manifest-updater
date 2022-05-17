@@ -42,7 +42,7 @@ const JsonUrlAssetsList = () => {
         </div>
         <button
           onClick={() => navigate("/create-new")}
-          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border-2 border-redstone"
+          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border border-redstone"
         >
           Create new
         </button>
