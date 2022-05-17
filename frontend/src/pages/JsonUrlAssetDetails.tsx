@@ -8,6 +8,7 @@ import JsonPathResults from "../components/JsonPathResults";
 import Modal from "../components/Modal";
 import CodeExamples from "../components/CodeExamples";
 import { fetchAsset } from "../utils";
+import ExternalLinkIcon from "../assets/external-link.svg";
 
 const JsonUrlAssetDetails = () => {
   const [jsonPathValue, setJsonPathValue] = useState("");
@@ -71,10 +72,13 @@ const JsonUrlAssetDetails = () => {
           </div>
           <a
             href={`https://app.redstone.finance/#/app/token/${data.id}`}
-            className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border-2 border-redstone"
+            className="text-neutral-600"
             target="_blank"
           >
-            Show historical data
+            <div className="flex gap-2 align-center">
+              Show historical data
+              <img src={ExternalLinkIcon} width={20} />
+            </div>
           </a>
         </div>
         <div>
@@ -107,7 +111,7 @@ const JsonUrlAssetDetails = () => {
       <div className="flex gap-5 justify-end">
         <button
           onClick={() => setShowCodeExamples(!showCodeExamples)}
-          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border-2 border-redstone"
+          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border border-redstone"
         >
           {`${showCodeExamples ? "Hide" : "Show"} sample code`}
         </button>
