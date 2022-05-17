@@ -5,7 +5,7 @@ import DiscordLogo from "../assets/discord.svg";
 
 export const SideBar = () => {
   return (
-    <div className="fixed top-[80%] px-4 text-center w-40">
+    <div className="flex flex-col px-4 text-center w-40 self-center fixed mb-0 mt-[75vh]">
       <div>
         <a className="text-[12px] text-redstone" href="https://redstone.finance/" target="_blank">
           Our website
