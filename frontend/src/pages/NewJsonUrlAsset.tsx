@@ -149,17 +149,12 @@ const NewJsonUrlAsset = () => {
         )}
         {jsonpathMatchResult && (
           <div className="flex justify-end">
-            {mutation.isLoading ? (
-                <Spinner />
-              ) : (
-                <button
-                  onClick={() => mutation.mutate({ url, jsonpath, comment })}
-                  className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full"
-                >
-                  Subscribe
-                </button>
-              )
-            }
+            <button
+              onClick={() => mutation.mutate({ url, jsonpath, comment })}
+              className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full"
+            >
+              {mutation.isLoading? <Spinner size={5} /> : "Subscribe"}
+            </button>
           </div>
         )}
       </Card>
