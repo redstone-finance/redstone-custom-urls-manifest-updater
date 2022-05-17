@@ -59,69 +59,71 @@ const JsonUrlAssetDetails = () => {
   };
 
   return (
-    <Card>
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between">
+    <div>
+      <Card>
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between">
+            <div>
+              <p className="text-sm text-sky-900 font-bold">
+                ID
+              </p>
+              <p className="text-md text-neutral-600">
+                {data?.id ?? "-"}
+              </p>
+            </div>
+            <a
+              href={`https://app.redstone.finance/#/app/token/${data.id}`}
+              className="text-neutral-600"
+              target="_blank"
+            >
+              <div className="flex gap-2 align-center">
+                Show historical data
+                <img src={ExternalLinkIcon} width={20} />
+              </div>
+            </a>
+          </div>
           <div>
             <p className="text-sm text-sky-900 font-bold">
-              ID
+              URL
             </p>
             <p className="text-md text-neutral-600">
-              {data?.id ?? "-"}
+              {data?.url ?? "-"}
             </p>
           </div>
-          <a
-            href={`https://app.redstone.finance/#/app/token/${data.id}`}
-            className="text-neutral-600"
-            target="_blank"
+          <div>
+            <p className="text-sm text-sky-900 font-bold">
+              JSON path
+            </p>
+            <p className="text-md text-neutral-600">
+              {data?.jsonpath ?? "-"}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-sky-900 font-bold">
+              Comment
+            </p>
+            <p className="text-md text-neutral-600">
+              {data?.comment ?? "-"}
+            </p>
+          </div>
+        </div>
+        {showCodeExamples && <CodeExamples customUrlId={data.id} />}
+        {!!jsonPathValue && <JsonPathResults json={json} jsonPathValue={jsonPathValue} />}
+        <div className="flex gap-5 justify-end">
+          <button
+            onClick={() => setShowCodeExamples(!showCodeExamples)}
+            className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border border-redstone"
           >
-            <div className="flex gap-2 align-center">
-              Show historical data
-              <img src={ExternalLinkIcon} width={20} />
-            </div>
-          </a>
+            {`${showCodeExamples ? "Hide" : "Show"} sample code`}
+          </button>
+          <button
+            onClick={() => fetchJsonPathValue()}
+            className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full text-center"
+          >
+            {isTestLoading ? <Spinner size={5} /> : "Test fetching now"}
+          </button>
         </div>
-        <div>
-          <p className="text-sm text-sky-900 font-bold">
-            URL
-          </p>
-          <p className="text-md text-neutral-600">
-            {data?.url ?? "-"}
-          </p>
-        </div>
-        <div>
-          <p className="text-sm text-sky-900 font-bold">
-            JSON path
-          </p>
-          <p className="text-md text-neutral-600">
-            {data?.jsonpath ?? "-"}
-          </p>
-        </div>
-        <div>
-          <p className="text-sm text-sky-900 font-bold">
-            Comment
-          </p>
-          <p className="text-md text-neutral-600">
-            {data?.comment ?? "-"}
-          </p>
-        </div>
-      </div>
-      {showCodeExamples && <CodeExamples customUrlId={data.id} />}
-      {!!jsonPathValue && <JsonPathResults json={json} jsonPathValue={jsonPathValue} />}
-      <div className="flex gap-5 justify-end">
-        <button
-          onClick={() => setShowCodeExamples(!showCodeExamples)}
-          className="bg-white hover:opacity-75 text-redstone py-2 px-4 rounded-full border border-redstone"
-        >
-          {`${showCodeExamples ? "Hide" : "Show"} sample code`}
-        </button>
-        <button
-          onClick={() => fetchJsonPathValue()}
-          className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full text-center"
-        >
-          {isTestLoading ? <Spinner size={5} /> : "Test fetching now"}
-        </button>
-      </div>
+      </Card>
       {!!errorMessage && 
         <Modal
           closeModal={() => setErrorMessage("")}
@@ -129,7 +131,7 @@ const JsonUrlAssetDetails = () => {
           text={errorMessage}
         />
       }
-    </Card>
+    </div>
   );
 };
 

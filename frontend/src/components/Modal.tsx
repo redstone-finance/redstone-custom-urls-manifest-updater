@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Modal = ({ closeModal, title, text }: Props) => (
-  <div className="fixed top-0 z-50 w-screen h-screen bg-gray-400 bg-opacity-60">
+  <div className="fixed top-0 left-0 z-50 w-screen h-screen bg-gray-400 bg-opacity-60">
     <div className="relative mx-auto w-full max-w-xl mt-20">
       <div className="relative bg-white rounded-xl shadow bg-white p-4">
         <div className="flex justify-between items-start mb-5 rounded-t">
