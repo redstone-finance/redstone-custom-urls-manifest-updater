@@ -1,5 +1,6 @@
 import Arweave from "arweave";
 import ArweaveService from "redstone-node/dist/src/arweave/ArweaveService";
+import { ethers } from "ethers";
 import { SmartWeaveNodeFactory } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { arweaveUrl, oracleRegistryAddress } from "./config";
@@ -32,4 +33,12 @@ export const getOracleContract = (jwk?: JWKInterface) => {
     .memCached(arweave)
     .contract(oracleRegistryAddress);
   return !!jwk ? contract.connect(jwk) : contract;
+};
+
+export const calculateSymbol = (url: string, jsonpath: string) => {
+  if (!(url && jsonpath)) {
+    return "";
+  }
+  const symbol = ethers.utils.id(`${jsonpath}---${url}`);
+  return symbol.slice(0, 18);
 };

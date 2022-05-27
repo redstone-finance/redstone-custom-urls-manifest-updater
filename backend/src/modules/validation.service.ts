@@ -1,6 +1,6 @@
 import js from "jsonpath";
 import { Manifest } from "../../../shared/types";
-import { calculateId } from "../utils";
+import { calculateSymbol } from "../../../shared/utils";
 
 const fetchJsonPathResponse = async (url: string, jsonpath: string) => {
   const response = await (await fetch(url)).json();
@@ -8,7 +8,7 @@ const fetchJsonPathResponse = async (url: string, jsonpath: string) => {
 };
 
 export const isSubscribed = (manifest: Manifest, url: string, jsonpath: string) => {
-  return Object.keys(manifest.tokens).some((id) => id === calculateId(url, jsonpath));
+  return Object.keys(manifest.tokens).some((id) => id === calculateSymbol(url, jsonpath));
 };
 
 export const isOnlyOneValue = (valuesFromJsonPath: any[]) =>
