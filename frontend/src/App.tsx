@@ -5,6 +5,7 @@ import NewJsonUrlAsset from "./pages/NewJsonUrlAsset";
 import JsonUrlAssetDetails from "./pages/JsonUrlAssetDetails";
 import JsonUrlAssetsList from "./pages/JsonUrlAssetsList";
 import SideBar from "./components/SideBar";
+import CalculateSymbol from "./pages/CalculateSymbol";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => {
               <Route path="/" element={<JsonUrlAssetsList />} />
               <Route path="/:id" element={<JsonUrlAssetDetails />} />
               <Route path="/create-new" element={<NewJsonUrlAsset />} />
+              <Route path="/calculate-symbol" element={<CalculateSymbol />} />
             </Routes>
           </div>
         </div>

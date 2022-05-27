@@ -1,5 +1,6 @@
+import { initBundlr } from "../utils";
 import { Manifest } from "../../../shared/types";
-import { calculateId, initBundlr } from "../utils";
+import { calculateSymbol } from "../../../shared/utils";
 
 export const generateNewManifest = (
   manifest: Manifest,
@@ -7,7 +8,7 @@ export const generateNewManifest = (
   jsonpath: string,
   comment: string
 ) => {
-  const id = calculateId(url, jsonpath);
+  const id = calculateSymbol(url, jsonpath);
   const newManifest = { ...manifest };
   newManifest.tokens[id] = {
     customUrlDetails: { url, jsonpath },
