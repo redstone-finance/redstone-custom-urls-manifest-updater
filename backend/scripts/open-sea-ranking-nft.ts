@@ -1,24 +1,45 @@
 import axios from "axios";
-import OpenseaScraper from "opensea-scraper";
+
+const top20slugs = [
+    "boredapeyachtclub",
+    "mutant-ape-yacht-club",
+    "otherdeed",
+    "azuki",
+    "decentraland",
+    "clonex",
+    "sandbox",
+    "proof-moonbirds",
+    "doodles-official",
+    "meebits",
+    "cool-cats-nft",
+    "bored-ape-kennel-club",
+    "lootproject",
+    "decentraland-wearables",
+    "cryptokitties",
+    "decentraland-wearables",
+    "world-of-women-nft",
+    "cryptoadz-by-gremplin",
+    "parallelalpha",
+    "superrare"
+];
 
 (async() => {
-    const rankings = (await OpenseaScraper.rankings("total")).slice(0,20);
-    for (const ranking of rankings) {
-        const customUrls = 'https://custom-urls-manifest-updater.redstone.finance/api/custom-urls'
-        const url = `https://api.opensea.io/api/v1/collection/${ranking.slug}/stats`
+    for (const slug of top20slugs) {
+        const customUrls = "https://custom-urls-manifest-updater.redstone.finance/api/custom-urls"
+        const url = `https://api.opensea.io/api/v1/collection/${slug}/stats`
         const body = {
             url,
-            jsonpath: '$.stats.floor_price',
-            comment: `Floor Price for ${ranking.name} Collection`
+            jsonpath: "$.stats.floor_price",
+            comment: `Floor Price for ${slug} Collection`
         }
         await axios.post(customUrls, body)
             .then((result) => {
-                console.log(`Collection ${ranking.name} - ${result.data}`)
+                console.log(`Collection ${slug} - ${result.data}`)
             })
             .catch((error) => {
-                console.log(`Couldn't add collection ${ranking.name}:`)
+                console.log(`Couldn"t add collection ${slug}:`)
                 console.log(error.response.data)
             });
     }
-    console.log('All Done!')
+    console.log("All Done!")
 })()
