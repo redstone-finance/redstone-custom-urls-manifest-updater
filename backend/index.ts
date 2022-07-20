@@ -23,10 +23,10 @@ app.use(routes);
 
 app.use(express.static("../frontend/dist"));
 
-app.get('*', (_req, res) => {
+app.get("*", (_req, res) => {
   res.sendFile("index.html", { root: "../frontend/dist" });
 });
 
 app.listen(port, () => {
-  console.log(`Custom URL manifest updater stared at port: ${port}`)
+  console.log(`Custom URL manifest updater stared at port: ${port}`);
 });

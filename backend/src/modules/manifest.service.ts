@@ -12,7 +12,7 @@ export const generateNewManifest = (
   const newManifest = { ...manifest };
   newManifest.tokens[id] = {
     customUrlDetails: { url, jsonpath },
-    comment
+    comment,
   };
   return newManifest;
 };
@@ -27,6 +27,6 @@ export const sendNewManifest = async (
   const bundlr = initBundlr();
   const transaction = bundlr.createTransaction(JSON.stringify(newManifest));
   await transaction.sign();
-  const id = (await transaction.upload()).data.id
+  const id = (await transaction.upload()).data.id;
   return id;
 };

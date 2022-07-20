@@ -10,8 +10,8 @@ export interface Manifest {
   priceAggregator: string;
   defaultSource?: string[];
   sourceTimeout: number;
-  maxPriceDeviationPercent: number,
-  evmChainId: number,
+  maxPriceDeviationPercent: number;
+  evmChainId: number;
   tokens: { [symbol: string]: TokenConfig };
   enableArweaveBackup?: boolean;
 }
@@ -21,12 +21,12 @@ export interface TokenConfig {
   maxPriceDeviationPercent?: number;
   customUrlDetails: CustomUrlDetails;
   comment?: string;
-};
+}
 
 export interface CustomUrlDetails {
   url: string;
   jsonpath: string;
-};
+}
 
 export interface DataFeed {
   name: string;
@@ -48,5 +48,5 @@ export interface DataFeedWithId extends DataFeed {
 }
 
 export interface NewCustomUrlInput extends CustomUrlDetails {
-  comment: string
+  comment: string;
 }

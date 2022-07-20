@@ -11,7 +11,9 @@ export const buildStore = () => {
     latestManifestTxId = newManifestTxId;
   };
 
-  const updatePendingOrSavedManifestTxId = (newPendingOrSavedManifestTxId: string) => {
+  const updatePendingOrSavedManifestTxId = (
+    newPendingOrSavedManifestTxId: string
+  ) => {
     pendingOrSavedManifestTxId = newPendingOrSavedManifestTxId;
   };
 
@@ -21,13 +23,13 @@ export const buildStore = () => {
       updateLatestManifestTxId(currentManifestTxId);
       updatePendingOrSavedManifestTxId(currentManifestTxId);
     }
-  }
+  };
 
   return {
     getLatestManifestTxId,
     getPendingOrSavedManifestTxId,
     updateLatestManifestTxId,
     updatePendingOrSavedManifestTxId,
-    initTxIdsInStoreIfNeeded
+    initTxIdsInStoreIfNeeded,
   };
 };

@@ -6,7 +6,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import {
   SmartWeave,
   SmartWeaveNodeFactory,
-  Contract
+  Contract,
 } from "redstone-smartweave";
 import { evaluatePendingOrSavedManifestTxId } from "../src/modules/cron";
 import { buildStore } from "../src/store/store";
@@ -57,8 +57,8 @@ describe("Cron", () => {
           manifestTxId: "testManifestTxId",
           logo: "testLogo",
           description: "testDescription",
-          admin: walletAddress
-        }
+          admin: walletAddress,
+        },
       },
     };
 
@@ -79,7 +79,7 @@ describe("Cron", () => {
 
   describe("evaluatePendingOrSavedManifestTxId", () => {
     let store: Store;
-  
+
     beforeEach(() => {
       store = buildStore();
     });

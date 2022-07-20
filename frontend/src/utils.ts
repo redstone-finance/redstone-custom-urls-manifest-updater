@@ -6,7 +6,8 @@ import {
 } from "../../shared/utils";
 import { FetchManifestsResponse, CustomUrlsList } from "./types";
 
-export const shortenCustomOracleId = (id: string) => `${id.slice(0, 6)}...${id.slice(-4)}`;
+export const shortenCustomOracleId = (id: string) =>
+  `${id.slice(0, 6)}...${id.slice(-4)}`;
 
 export const shortenUrl = (url: string) => {
   if (url.length === 40) {
@@ -16,12 +17,14 @@ export const shortenUrl = (url: string) => {
 };
 
 export const fetchDataFeed = async (contract: Contract) => {
-  return (await contract.viewState<RedstoneOraclesInput, DataFeedWithId>({
-    function: "getDataFeedDetailsById",
-    data: {
-      id: "redstone-custom-urls-demo"
-    }
-  })).result;
+  return (
+    await contract.viewState<RedstoneOraclesInput, DataFeedWithId>({
+      function: "getDataFeedDetailsById",
+      data: {
+        id: "redstone-custom-urls-demo",
+      },
+    })
+  ).result;
 };
 
 export const fetchAssets = async () => {
@@ -47,13 +50,16 @@ const fetchManifestFromContract = async () => {
   const manifestTxId = await getCurrentManifestTxIdForCustomUrls();
   const manifest = await fetchManifest(manifestTxId);
 
-  return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
-    ...object,
-    [key]: {
-      ...value,
-      isPending: false
-    },
-  }), {} as CustomUrlsList);
+  return Object.entries(manifest.tokens).reduce(
+    (object, [key, value]) => ({
+      ...object,
+      [key]: {
+        ...value,
+        isPending: false,
+      },
+    }),
+    {} as CustomUrlsList
+  );
 };
 
 const fetchManifestFromGateway = async () => {
@@ -61,16 +67,20 @@ const fetchManifestFromGateway = async () => {
   const backendUrl = process.env.BACKEND_URL;
   const url = `${backendUrl}/manifests`;
   const manifestsTxIdsResponse = await fetch(url);
-  const manifestsTxIds = await manifestsTxIdsResponse.json() as FetchManifestsResponse;
+  const manifestsTxIds =
+    (await manifestsTxIdsResponse.json()) as FetchManifestsResponse;
   const manifest = await fetchManifest(manifestsTxIds.latestManifestTxId);
 
-  return Object.entries(manifest.tokens).reduce((object, [ key, value ]) => ({
-    ...object,
-    [key]: {
-      ...value,
-      isPending: true
-    }
-  }), {} as CustomUrlsList);
+  return Object.entries(manifest.tokens).reduce(
+    (object, [key, value]) => ({
+      ...object,
+      [key]: {
+        ...value,
+        isPending: true,
+      },
+    }),
+    {} as CustomUrlsList
+  );
 };
 
 export const fetchAsset = async (id: string) => {
@@ -79,6 +89,6 @@ export const fetchAsset = async (id: string) => {
   return {
     ...asset.customUrlDetails,
     comment: asset.comment,
-    id
+    id,
   };
 };

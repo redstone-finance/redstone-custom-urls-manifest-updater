@@ -1,13 +1,9 @@
 module.exports = {
-  roots: [
-    "<rootDir>/"
-  ],
+  roots: ["<rootDir>/"],
   testEnvironment: "node",
-  testMatch: [
-    "**/test/?(*.)+(test).+(ts)"
-  ],
+  testMatch: ["**/test/?(*.)+(test).+(ts)"],
   transform: {
-    "^.+\\.(ts|js)$": "ts-jest"
+    "^.+\\.(ts|js)$": "ts-jest",
   },
-  transformIgnorePatterns: ["<rootDir>/node_modules/(?!@assemblyscript/.*)"]
+  transformIgnorePatterns: ["<rootDir>/node_modules/(?!@assemblyscript/.*)"],
 };

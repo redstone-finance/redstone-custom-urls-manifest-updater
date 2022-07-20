@@ -5,15 +5,21 @@
   var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __defNormalProp = (obj, key, value) =>
+    key in obj
+      ? __defProp(obj, key, {
+          enumerable: true,
+          configurable: true,
+          writable: true,
+          value,
+        })
+      : (obj[key] = value);
   var __spreadValues = (a, b) => {
     for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
+      if (__hasOwnProp.call(b, prop)) __defNormalProp(a, prop, b[prop]);
     if (__getOwnPropSymbols)
       for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
+        if (__propIsEnum.call(b, prop)) __defNormalProp(a, prop, b[prop]);
       }
     return a;
   };
@@ -46,7 +52,10 @@
           reject(e);
         }
       };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      var step = (x) =>
+        x.done
+          ? resolve(x.value)
+          : Promise.resolve(x.value).then(fulfilled, rejected);
       step((generator = generator.apply(__this, __arguments)).next());
     });
   };
@@ -71,19 +80,18 @@
   };
 
   // src/contracts/redstone-oracle-registry/common/getDetailsById.ts
-  var getDetailsById = ({
-    identifier,
-    state,
-    oraclesType
-  }) => {
+  var getDetailsById = ({ identifier, state, oraclesType }) => {
     if (!identifier) {
       throw new ContractError("Missing oracle identifier");
     }
     const oracleDetails = state[oraclesType][identifier];
     if (!oracleDetails) {
-      throw new ContractError(`Oracle with identifier ${identifier} does not exist`);
+      throw new ContractError(
+        `Oracle with identifier ${identifier} does not exist`
+      );
     }
-    const identifierObject = oraclesType === "nodes" ? { address: identifier } : { id: identifier };
+    const identifierObject =
+      oraclesType === "nodes" ? { address: identifier } : { id: identifier };
     return __spreadValues(__spreadValues({}, oracleDetails), identifierObject);
   };
 
@@ -93,7 +101,7 @@
     const nodesDetails = getDetailsById({
       identifier: data == null ? void 0 : data.address,
       state,
-      oraclesType: "nodes"
+      oraclesType: "nodes",
     });
     return { result: nodesDetails };
   };
@@ -102,7 +110,13 @@
   var registerNode = (state, action) => {
     const data = action.input.data;
     const caller = action.caller;
-    const isValidData = data.name && data.logo && data.description && data.dataFeedId && data.evmAddress && data.ipAddress;
+    const isValidData =
+      data.name &&
+      data.logo &&
+      data.description &&
+      data.dataFeedId &&
+      data.evmAddress &&
+      data.ipAddress;
     if (!isValidData) {
       throw new ContractError("Invalid node data");
     }
@@ -110,7 +124,9 @@
       throw new ContractError(`Node with owner ${caller} already exists`);
     }
     if (!state.dataFeeds[data.dataFeedId]) {
-      throw new ContractError(`Data feed with id ${data.dataFeedId} does not exist`);
+      throw new ContractError(
+        `Data feed with id ${data.dataFeedId} does not exist`
+      );
     }
     state.nodes[caller] = data;
     return { state };
@@ -124,7 +140,10 @@
     if (!currentNodeState) {
       throw new ContractError(`Node with owner ${caller} not found`);
     }
-    state.nodes[caller] = __spreadValues(__spreadValues({}, currentNodeState), data);
+    state.nodes[caller] = __spreadValues(
+      __spreadValues({}, currentNodeState),
+      data
+    );
     return { state };
   };
 
@@ -151,7 +170,7 @@
     const dataFeedDetails = getDetailsById({
       identifier: data == null ? void 0 : data.id,
       state,
-      oraclesType: "dataFeeds"
+      oraclesType: "dataFeeds",
     });
     return { result: dataFeedDetails };
   };
@@ -159,16 +178,23 @@
   // src/contracts/redstone-oracle-registry/data-feeds/write/createDataFeed.ts
   var createDataFeed = (state, action) => {
     const data = action.input.data;
-    const isValidData = data.id && data.name && data.logo && data.description && data.manifestTxId;
+    const isValidData =
+      data.id &&
+      data.name &&
+      data.logo &&
+      data.description &&
+      data.manifestTxId;
     if (!isValidData) {
       throw new ContractError("Invalid data feed data");
     }
-    const _a = data, { id } = _a, restData = __objRest(_a, ["id"]);
+    const _a = data,
+      { id } = _a,
+      restData = __objRest(_a, ["id"]);
     if (state.dataFeeds[id]) {
       throw new ContractError(`Data feed with id ${id} already exists`);
     }
     state.dataFeeds[id] = __spreadProps(__spreadValues({}, restData), {
-      admin: action.caller
+      admin: action.caller,
     });
     return { state };
   };
@@ -184,7 +210,10 @@
     if (action.caller !== currentDataFeedState.admin) {
       throw new ContractError("Only admin can update data feed");
     }
-    state.dataFeeds[id] = __spreadValues(__spreadValues({}, currentDataFeedState), update);
+    state.dataFeeds[id] = __spreadValues(
+      __spreadValues({}, currentDataFeedState),
+      update
+    );
     return { state };
   };
 
@@ -202,31 +231,34 @@
   };
 
   // src/contracts/redstone-oracle-registry/redstone-oracle-registry.contract.ts
-  var handle = (state, action) => __async(void 0, null, function* () {
-    const { input } = action;
-    switch (input.function) {
-      case "listNodes":
-        return listNodes(state, input);
-      case "getNodeDetails":
-        return getNodeDetails(state, input);
-      case "registerNode":
-        return registerNode(state, action);
-      case "updateNodeDetails":
-        return updateNodeDetails(state, action);
-      case "removeNode":
-        return removeNode(state, action.caller);
-      case "listDataFeeds":
-        return listDataFeeds(state, input);
-      case "getDataFeedDetailsById":
-        return getDataFeedDetailsById(state, input);
-      case "createDataFeed":
-        return createDataFeed(state, action);
-      case "updateDataFeed":
-        return updateDataFeed(state, action);
-      case "evolve":
-        return evolve(state, action);
-      default:
-        throw new ContractError(`No function supplied or function not recognized: "${input.function}"`);
-    }
-  });
+  var handle = (state, action) =>
+    __async(void 0, null, function* () {
+      const { input } = action;
+      switch (input.function) {
+        case "listNodes":
+          return listNodes(state, input);
+        case "getNodeDetails":
+          return getNodeDetails(state, input);
+        case "registerNode":
+          return registerNode(state, action);
+        case "updateNodeDetails":
+          return updateNodeDetails(state, action);
+        case "removeNode":
+          return removeNode(state, action.caller);
+        case "listDataFeeds":
+          return listDataFeeds(state, input);
+        case "getDataFeedDetailsById":
+          return getDataFeedDetailsById(state, input);
+        case "createDataFeed":
+          return createDataFeed(state, action);
+        case "updateDataFeed":
+          return updateDataFeed(state, action);
+        case "evolve":
+          return evolve(state, action);
+        default:
+          throw new ContractError(
+            `No function supplied or function not recognized: "${input.function}"`
+          );
+      }
+    });
 })();

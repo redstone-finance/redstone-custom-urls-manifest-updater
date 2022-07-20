@@ -10,5 +10,5 @@ interface TokenConfigWithPending extends TokenConfig {
 }
 
 export type CustomUrlsList = {
-  [assetId in string]: TokenConfigWithPending
-}
+  [assetId in string]: TokenConfigWithPending;
+};

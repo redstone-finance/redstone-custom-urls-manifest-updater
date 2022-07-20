@@ -9,15 +9,17 @@ import { Manifest } from "./types";
 export const DATA_FEED_ID = "redstone-custom-urls-demo";
 
 export const fetchManifest = async (manifestTransactionId: string) => {
-  const fetchManifestResponse = await fetch(`${arweaveUrl}/${manifestTransactionId}`);
-  return await fetchManifestResponse.json() as Manifest;
+  const fetchManifestResponse = await fetch(
+    `${arweaveUrl}/${manifestTransactionId}`
+  );
+  return (await fetchManifestResponse.json()) as Manifest;
 };
 
 export const initArweave = () => {
   return Arweave.init({
     host: "arweave.net",
     port: 443,
-    protocol: "https"
+    protocol: "https",
   });
 };
 
@@ -29,9 +31,9 @@ export const getCurrentManifestTxIdForCustomUrls = async () => {
 
 export const getOracleContract = (jwk?: JWKInterface) => {
   const arweave = initArweave();
-  const contract = SmartWeaveNodeFactory
-    .memCached(arweave)
-    .contract(oracleRegistryAddress);
+  const contract = SmartWeaveNodeFactory.memCached(arweave).contract(
+    oracleRegistryAddress
+  );
   return !!jwk ? contract.connect(jwk) : contract;
 };
 

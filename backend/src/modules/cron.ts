@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 import { Contract } from "redstone-smartweave";
 import { Store } from "../types";
@@ -16,13 +16,13 @@ export const evaluatePendingOrSavedManifestTxId = async (
     return;
   }
   await contract.bundleInteraction({
-    function: 'updateDataFeed',
+    function: "updateDataFeed",
     data: {
-      id: 'redstone-custom-urls-demo',
+      id: "redstone-custom-urls-demo",
       update: {
-        manifestTxId: latestManifestTxId
-      }
-    }
+        manifestTxId: latestManifestTxId,
+      },
+    },
   });
   store.updatePendingOrSavedManifestTxId(latestManifestTxId);
 };
@@ -31,7 +31,7 @@ export const buildCron = (contract: Contract, store: Store) => {
   const startUpdatingPendingOrSavedManifestTxId = () => {
     setInterval(() => {
       evaluatePendingOrSavedManifestTxId(contract, store);
-    }, JOB_INTERVAL_MILLISECONDS)
+    }, JOB_INTERVAL_MILLISECONDS);
   };
 
   return { startUpdatingPendingOrSavedManifestTxId };

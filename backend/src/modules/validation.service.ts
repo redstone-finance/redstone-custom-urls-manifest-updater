@@ -7,23 +7,32 @@ const fetchJsonPathResponse = async (url: string, jsonpath: string) => {
   return js.query(response, jsonpath);
 };
 
-export const isSubscribed = (manifest: Manifest, url: string, jsonpath: string) => {
-  return Object.keys(manifest.tokens).some((id) => id === calculateSymbol(url, jsonpath));
+export const isSubscribed = (
+  manifest: Manifest,
+  url: string,
+  jsonpath: string
+) => {
+  return Object.keys(manifest.tokens).some(
+    (id) => id === calculateSymbol(url, jsonpath)
+  );
 };
 
 export const isOnlyOneValue = (valuesFromJsonPath: any[]) =>
   valuesFromJsonPath.length === 1;
 
 export const isNumber = (valueFromJsonPath: any) =>
-  typeof valueFromJsonPath === 'number';
+  typeof valueFromJsonPath === "number";
 
-
-export const validate = async (manifest: Manifest, url: string, jsonpath: string) => {
+export const validate = async (
+  manifest: Manifest,
+  url: string,
+  jsonpath: string
+) => {
   const isAlreadySubscribed = isSubscribed(manifest, url, jsonpath);
   if (isAlreadySubscribed) {
     return {
       isError: true,
-      errorMessage: "Introduced pair URL with JSONPath already exists"
+      errorMessage: "Introduced pair URL with JSONPath already exists",
     };
   }
   const valuesFromJsonPath = await fetchJsonPathResponse(url, jsonpath);
@@ -32,11 +41,12 @@ export const validate = async (manifest: Manifest, url: string, jsonpath: string
   if (!isOnlyOneValueInResponse || !isResponseNumber) {
     return {
       isError: true,
-      errorMessage: "Response from pair URL and JSONPath is not single number value"
+      errorMessage:
+        "Response from pair URL and JSONPath is not single number value",
     };
   }
   return {
     isError: false,
-    errorMessage: ""
+    errorMessage: "",
   };
 };

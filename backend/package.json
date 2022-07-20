@@ -1,7 +1,7 @@
 {
-  "name": "redstone-custom-url-manifest-updater",
+  "name": "redstone-custom-url-manifest-updater-backend",
   "version": "0.0.1",
-  "description": "Redstone custom URL manifest updater",
+  "description": "Redstone custom URL manifest updater backend",
   "license": "MIT",
   "scripts": {
     "test": "jest",

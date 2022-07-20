@@ -1,5 +1,5 @@
 {
-  "name": "redstone-custom-url-manifest",
+  "name": "redstone-custom-url-manifest-updater-monorepo",
   "version": "0.0.1",
   "description": "Redstone custom URL manifest monorepo",
   "license": "MIT",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "eslint": "^8.14.0",
-    "eslint-plugin-react": "^7.29.4"
+    "eslint-plugin-react": "^7.29.4",
+    "prettier": "^2.7.1"
   }
 }
