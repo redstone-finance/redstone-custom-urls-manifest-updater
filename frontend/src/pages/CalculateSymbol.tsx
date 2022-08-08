@@ -9,7 +9,10 @@ const CalculateSymbol = () => {
   return (
     <Card>
       <div>
-        <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="url">
+        <label
+          className="block text-sky-900 text-sm font-bold mb-2"
+          htmlFor="url"
+        >
           URL
         </label>
         <input
@@ -21,7 +24,10 @@ const CalculateSymbol = () => {
         />
       </div>
       <div>
-        <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+        <label
+          className="block text-sky-900 text-sm font-bold mb-2"
+          htmlFor="jsonpath"
+        >
           JSON path
         </label>
         <input
@@ -33,7 +39,10 @@ const CalculateSymbol = () => {
         />
       </div>
       <div>
-        <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+        <label
+          className="block text-sky-900 text-sm font-bold mb-2"
+          htmlFor="jsonpath"
+        >
           Calculated symbol
         </label>
         <input

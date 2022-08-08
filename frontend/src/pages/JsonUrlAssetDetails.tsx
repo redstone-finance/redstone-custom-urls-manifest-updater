@@ -44,7 +44,7 @@ const JsonUrlAssetDetails = () => {
   };
 
   const fetchJsonPathValue = async () => {
-    const manifest = await fetchJson()
+    const manifest = await fetchJson();
     setJson(JSON.stringify(manifest));
     try {
       const jsonPathValueFromManifest = js.query(manifest, data.jsonpath);
@@ -64,12 +64,8 @@ const JsonUrlAssetDetails = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between">
             <div>
-              <p className="text-sm text-sky-900 font-bold">
-                ID
-              </p>
-              <p className="text-md text-neutral-600">
-                {data?.id ?? "-"}
-              </p>
+              <p className="text-sm text-sky-900 font-bold">ID</p>
+              <p className="text-md text-neutral-600">{data?.id ?? "-"}</p>
             </div>
             <a
               href={`https://app.redstone.finance/#/app/token/${data.id}`}
@@ -83,32 +79,22 @@ const JsonUrlAssetDetails = () => {
             </a>
           </div>
           <div>
-            <p className="text-sm text-sky-900 font-bold">
-              URL
-            </p>
-            <p className="text-md text-neutral-600">
-              {data?.url ?? "-"}
-            </p>
+            <p className="text-sm text-sky-900 font-bold">URL</p>
+            <p className="text-md text-neutral-600">{data?.url ?? "-"}</p>
           </div>
           <div>
-            <p className="text-sm text-sky-900 font-bold">
-              JSON path
-            </p>
-            <p className="text-md text-neutral-600">
-              {data?.jsonpath ?? "-"}
-            </p>
+            <p className="text-sm text-sky-900 font-bold">JSON path</p>
+            <p className="text-md text-neutral-600">{data?.jsonpath ?? "-"}</p>
           </div>
           <div>
-            <p className="text-sm text-sky-900 font-bold">
-              Comment
-            </p>
-            <p className="text-md text-neutral-600">
-              {data?.comment ?? "-"}
-            </p>
+            <p className="text-sm text-sky-900 font-bold">Comment</p>
+            <p className="text-md text-neutral-600">{data?.comment ?? "-"}</p>
           </div>
         </div>
         {showCodeExamples && <CodeExamples customUrlId={data.id} />}
-        {!!jsonPathValue && <JsonPathResults json={json} jsonPathValue={jsonPathValue} />}
+        {!!jsonPathValue && (
+          <JsonPathResults json={json} jsonPathValue={jsonPathValue} />
+        )}
         <div className="flex gap-5 justify-end">
           <button
             onClick={() => setShowCodeExamples(!showCodeExamples)}
@@ -124,13 +110,13 @@ const JsonUrlAssetDetails = () => {
           </button>
         </div>
       </Card>
-      {!!errorMessage && 
+      {!!errorMessage && (
         <Modal
           closeModal={() => setErrorMessage("")}
           title="There is a problem"
           text={errorMessage}
         />
-      }
+      )}
     </div>
   );
 };

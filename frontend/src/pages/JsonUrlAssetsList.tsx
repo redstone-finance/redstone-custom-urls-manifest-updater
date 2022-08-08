@@ -7,7 +7,7 @@ import { fetchAssets, shortenCustomOracleId, shortenUrl } from "../utils";
 
 const JsonUrlAssetsList = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const { isLoading, data } = useQuery("assets", fetchAssets);
 
@@ -15,15 +15,18 @@ const JsonUrlAssetsList = () => {
     return <Loader />;
   }
 
-  const assetsSorted = Object.entries(data)
-    .sort(([,left], [,right]) => Number(left.isPending) - Number(right.isPending));
+  const assetsSorted = Object.entries(data).sort(
+    ([, left], [, right]) => Number(left.isPending) - Number(right.isPending)
+  );
 
   const assetsFiltered = assetsSorted.filter(([key, value]) => {
     const searchLowerCase = search.toLowerCase();
-    return key.toLowerCase().includes(searchLowerCase) ||
+    return (
+      key.toLowerCase().includes(searchLowerCase) ||
       value.customUrlDetails.jsonpath.toLowerCase().includes(searchLowerCase) ||
       value.customUrlDetails.url.toLowerCase().includes(searchLowerCase) ||
-      value.comment?.toLocaleLowerCase().includes(searchLowerCase);
+      value.comment?.toLocaleLowerCase().includes(searchLowerCase)
+    );
   });
 
   return (
@@ -55,9 +58,11 @@ const JsonUrlAssetsList = () => {
             ${value.isPending ? "px-5 pb-5 pt-1" : "p-5"}
           `}
         >
-          {value.isPending && <div className="flex justify-center mb-1 text-xs text-yellow-600">
-            Pending
-          </div>}
+          {value.isPending && (
+            <div className="flex justify-center mb-1 text-xs text-yellow-600">
+              Pending
+            </div>
+          )}
           <div
             className="flex items-start align-center gap-5"
             onClick={() => navigate(key)}
@@ -70,15 +75,21 @@ const JsonUrlAssetsList = () => {
             </div>
             <div className="w-2/6 overflow-hidden">
               <p className="text-xs text-sky-900 font-bold">Comment</p>
-              <p className="text-sm text-neutral-600 truncate">{value?.comment ?? '-'}</p>
+              <p className="text-sm text-neutral-600 truncate">
+                {value?.comment ?? "-"}
+              </p>
             </div>
             <div className="w-2/6 overflow-hidden">
               <p className="text-xs text-sky-900 font-bold">URL</p>
-              <p className="text-sm text-neutral-600 truncate">{shortenUrl(value.customUrlDetails.url)}</p>
+              <p className="text-sm text-neutral-600 truncate">
+                {shortenUrl(value.customUrlDetails.url)}
+              </p>
             </div>
             <div className="w-1/6 overflow-hidden">
               <p className="text-xs text-sky-900 font-bold">JSON path</p>
-              <p className="text-sm text-neutral-600 truncate">{value.customUrlDetails.jsonpath}</p>
+              <p className="text-sm text-neutral-600 truncate">
+                {value.customUrlDetails.jsonpath}
+              </p>
             </div>
           </div>
         </div>

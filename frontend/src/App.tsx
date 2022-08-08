@@ -27,7 +27,7 @@ const App = () => {
         </div>
       </BrowserRouter>
     </QueryClientProvider>
-  )
+  );
 };
 
 export default App;

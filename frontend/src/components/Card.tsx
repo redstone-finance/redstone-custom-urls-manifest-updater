@@ -11,7 +11,7 @@ const Card = ({ children }: Props) => {
         {children}
       </div>
     </div>
-  )
+  );
 };
 
 export default Card;
