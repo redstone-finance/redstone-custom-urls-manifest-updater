@@ -29,7 +29,8 @@ const NewJsonUrlAsset = () => {
     if (url) {
       setIsTestLoading(true);
       try {
-        const response = await fetch(url);
+        const backendUrl = process.env.BACKEND_URL;
+        const response = await fetch(`${backendUrl}/proxy?url=${url}`);
         const json = await response.json();
         setIsTestLoading(false);
         return JSON.stringify(json);
@@ -65,20 +66,27 @@ const NewJsonUrlAsset = () => {
     }
   };
 
-  const mutation = useMutation((newCustomUrl: NewCustomUrlInput) => {
-    const backendUrl = process.env.BACKEND_URL;
-    const url = `${backendUrl}/custom-urls`;
-    return axios.post(url, newCustomUrl);
-  }, {
-    onError: (error: AxiosError<string>) => setErrorMessage(error?.response?.data ?? ""),
-    onSuccess: () => navigate("/")
-  });
+  const mutation = useMutation(
+    (newCustomUrl: NewCustomUrlInput) => {
+      const backendUrl = process.env.BACKEND_URL;
+      const url = `${backendUrl}/custom-urls`;
+      return axios.post(url, newCustomUrl);
+    },
+    {
+      onError: (error: AxiosError<string>) =>
+        setErrorMessage(error?.response?.data ?? ""),
+      onSuccess: () => navigate("/"),
+    }
+  );
 
   return (
     <div>
       <Card>
         <div>
-          <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="url">
+          <label
+            className="block text-sky-900 text-sm font-bold mb-2"
+            htmlFor="url"
+          >
             URL
           </label>
           <input
@@ -91,10 +99,17 @@ const NewJsonUrlAsset = () => {
         </div>
         <div>
           <div className="flex gap-3">
-            <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+            <label
+              className="block text-sky-900 text-sm font-bold mb-2"
+              htmlFor="jsonpath"
+            >
               JSON path
             </label>
-            <a className="text-sm text-slate-500 italic" href="https://jsonpath.com/" target="_blank">
+            <a
+              className="text-sm text-slate-500 italic"
+              href="https://jsonpath.com/"
+              target="_blank"
+            >
               (See how JSONPath works)
             </a>
           </div>
@@ -107,7 +122,10 @@ const NewJsonUrlAsset = () => {
           />
         </div>
         <div>
-          <label className="block text-sky-900 text-sm font-bold mb-2" htmlFor="jsonpath">
+          <label
+            className="block text-sky-900 text-sm font-bold mb-2"
+            htmlFor="jsonpath"
+          >
             Comment
           </label>
           <input
@@ -131,18 +149,19 @@ const NewJsonUrlAsset = () => {
               defaultLanguage="json"
               width="48%"
               value={JSON.stringify(JSON.parse(stringJson), null, 2)}
-              options={ { minimap: { enabled: false }}}
+              options={{ minimap: { enabled: false } }}
               className="border-2"
             />
             <Editor
               height="40vh"
               width="48%"
               defaultLanguage="json"
-              value={!!jsonpathMatchResult 
-                ? JSON.stringify(JSON.parse(jsonpathMatchResult), null, 2) 
-                : "No matches"
+              value={
+                !!jsonpathMatchResult
+                  ? JSON.stringify(JSON.parse(jsonpathMatchResult), null, 2)
+                  : "No matches"
               }
-              options={ { minimap: { enabled: false }}}
+              options={{ minimap: { enabled: false } }}
               className="border-2"
             />
           </div>
@@ -153,18 +172,18 @@ const NewJsonUrlAsset = () => {
               onClick={() => mutation.mutate({ url, jsonpath, comment })}
               className="bg-redstone hover:opacity-75 text-white py-2 px-4 rounded-full"
             >
-              {mutation.isLoading? <Spinner size={5} /> : "Subscribe"}
+              {mutation.isLoading ? <Spinner size={5} /> : "Subscribe"}
             </button>
           </div>
         )}
       </Card>
-      {!!errorMessage && 
+      {!!errorMessage && (
         <Modal
           closeModal={() => setErrorMessage("")}
           title="There is a problem"
           text={errorMessage}
         />
-      }
+      )}
     </div>
   );
 };

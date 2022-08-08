@@ -32,5 +32,12 @@ export const buildRoutes = (store: Store) => {
     });
   });
 
+  router.get("/api/proxy", async (req, res) => {
+    const params = req.query as { url: string };
+    const responseFromProxiedUrl = await fetch(params.url);
+    const responseAsJson = await responseFromProxiedUrl.json();
+    res.send(responseAsJson);
+  });
+
   return router;
 };
