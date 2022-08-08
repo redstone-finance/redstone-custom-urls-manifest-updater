@@ -1,12 +1,13 @@
 import Arweave from "arweave";
-import ArweaveService from "redstone-node/dist/src/arweave/ArweaveService";
 import { ethers } from "ethers";
+import axios from "axios";
 import { SmartWeaveNodeFactory } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { arweaveUrl, oracleRegistryAddress } from "./config";
 import { Manifest } from "./types";
 
 export const DATA_FEED_ID = "redstone-custom-urls-demo";
+const SMARTWEAVE_DEN_NODE_URL = "https://d2rkt3biev1br2.cloudfront.net/state";
 
 export const fetchManifest = async (manifestTransactionId: string) => {
   const fetchManifestResponse = await fetch(
@@ -15,7 +16,7 @@ export const fetchManifest = async (manifestTransactionId: string) => {
   return (await fetchManifestResponse.json()) as Manifest;
 };
 
-export const initArweave = () => {
+const initArweave = () => {
   return Arweave.init({
     host: "arweave.net",
     port: 443,
@@ -24,16 +25,17 @@ export const initArweave = () => {
 };
 
 export const getCurrentManifestTxIdForCustomUrls = async () => {
-  const arweaveService = new ArweaveService();
-  const contractState = await arweaveService.getOracleRegistryContractState();
-  return contractState.dataFeeds[DATA_FEED_ID].manifestTxId;
+  const params = new URLSearchParams([["id", oracleRegistryAddress]]);
+  const response = await axios.get(SMARTWEAVE_DEN_NODE_URL, {
+    params,
+  });
+  return response.data.state.dataFeeds[DATA_FEED_ID].manifestTxId;
 };
 
 export const getOracleContract = (jwk?: JWKInterface) => {
   const arweave = initArweave();
-  const contract = SmartWeaveNodeFactory.memCached(arweave).contract(
-    oracleRegistryAddress
-  );
+  const smartweave = SmartWeaveNodeFactory.memCachedBased(arweave).build();
+  const contract = smartweave.contract(oracleRegistryAddress);
   return !!jwk ? contract.connect(jwk) : contract;
 };
 

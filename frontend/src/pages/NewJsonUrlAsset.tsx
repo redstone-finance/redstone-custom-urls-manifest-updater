@@ -29,7 +29,10 @@ const NewJsonUrlAsset = () => {
     if (url) {
       setIsTestLoading(true);
       try {
-        const response = await fetch(url);
+        const backendUrl = process.env.BACKEND_URL;
+        const response = await fetch(
+          `${backendUrl}/proxy?url=${encodeURIComponent(url)}`
+        );
         const json = await response.json();
         setIsTestLoading(false);
         return JSON.stringify(json);
