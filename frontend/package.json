@@ -45,9 +45,5 @@
   },
   "alias": {
     "process": false
-  },
-  "browser": {
-    "crypto": false,
-    "constants": false
   }
 }

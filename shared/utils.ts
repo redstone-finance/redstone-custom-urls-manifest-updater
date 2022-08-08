@@ -1,7 +1,7 @@
 import Arweave from "arweave";
 import { ethers } from "ethers";
 import axios from "axios";
-import { SmartWeaveNodeFactory } from "redstone-smartweave";
+import { SmartWeaveWebFactory } from "redstone-smartweave";
 import { JWKInterface } from "arweave/node/lib/wallet";
 import { arweaveUrl, oracleRegistryAddress } from "./config";
 import { Manifest } from "./types";
@@ -34,7 +34,9 @@ export const getCurrentManifestTxIdForCustomUrls = async () => {
 
 export const getOracleContract = (jwk?: JWKInterface) => {
   const arweave = initArweave();
-  const smartweave = SmartWeaveNodeFactory.memCachedBased(arweave).build();
+  const smartweave = SmartWeaveWebFactory.memCachedBased(
+    arweave as any
+  ).build();
   const contract = smartweave.contract(oracleRegistryAddress);
   return !!jwk ? contract.connect(jwk) : contract;
 };

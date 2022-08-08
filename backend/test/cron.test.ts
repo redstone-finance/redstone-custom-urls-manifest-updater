@@ -34,7 +34,7 @@ describe("Cron", () => {
       logging: false,
     });
 
-    smartweave = SmartWeaveNodeFactory.memCached(arweave);
+    smartweave = SmartWeaveNodeFactory.memCached(arweave as any);
     wallet = await arweave.wallets.generate();
     await addFunds(arweave, wallet);
     walletAddress = await arweave.wallets.jwkToAddress(wallet);

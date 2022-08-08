@@ -29,7 +29,6 @@
     "prettier": "^2.7.1"
   },
   "resolutions": {
-    "arconnect": "0.4.2",
-    "arweave": "1.11.4"
+    "arconnect": "0.4.2"
   }
 }
