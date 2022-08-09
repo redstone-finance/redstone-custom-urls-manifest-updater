@@ -1,15 +1,21 @@
+import axios from "axios";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
-import { fetchAssets, shortenCustomOracleId, shortenUrl } from "../utils";
+import { shortenCustomOracleId, shortenUrl } from "../utils";
+import { CustomUrlsList } from "../../../shared/types";
 
 const JsonUrlAssetsList = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  const { isLoading, data } = useQuery("assets", fetchAssets);
+  const { isLoading, data } = useQuery<CustomUrlsList>("assets", async () => {
+    const backendUrl = process.env.BACKEND_URL;
+    const assetResponse = await axios.get(`${backendUrl}/assets`);
+    return assetResponse.data;
+  });
 
   if (isLoading || !data) {
     return <Loader />;
@@ -57,16 +63,14 @@ const JsonUrlAssetsList = () => {
             ${value.isPending && "border-2 border-yellow-500"}
             ${value.isPending ? "px-5 pb-5 pt-1" : "p-5"}
           `}
+          onClick={() => navigate(key)}
         >
           {value.isPending && (
             <div className="flex justify-center mb-1 text-xs text-yellow-600">
               Pending
             </div>
           )}
-          <div
-            className="flex items-start align-center gap-5"
-            onClick={() => navigate(key)}
-          >
+          <div className="flex items-start align-center gap-5">
             <div className="w-1/6">
               <p className="text-xs text-sky-900 font-bold">ID</p>
               <p className="text-sm text-neutral-600">

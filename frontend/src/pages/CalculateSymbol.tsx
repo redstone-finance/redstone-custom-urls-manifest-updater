@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "../components/Card";
-import { calculateSymbol } from "../../../shared/utils";
+import { calculateSymbol } from "../utils";
 
 const CalculateSymbol = () => {
   const [url, setUrl] = useState("");

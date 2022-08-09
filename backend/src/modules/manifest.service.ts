@@ -1,6 +1,5 @@
-import { initBundlr } from "../utils";
-import { Manifest } from "../../../shared/types";
-import { calculateSymbol } from "../../../shared/utils";
+import { Manifest } from "../types";
+import { calculateSymbol, initBundlr } from "../utils";
 
 export const generateNewManifest = (
   manifest: Manifest,

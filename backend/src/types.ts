@@ -1,4 +1,5 @@
-import { DataFeed } from "../../shared/types";
+import { TokenConfig } from "../../shared/types";
+import { buildAssetsService } from "./modules/assets.service";
 import { buildStore } from "./store/store";
 
 export interface EvolveState {
@@ -26,3 +27,23 @@ interface Node {
 }
 
 export type Store = ReturnType<typeof buildStore>;
+export type AssetsService = ReturnType<typeof buildAssetsService>;
+
+export interface DataFeed {
+  name: string;
+  manifestTxId: string;
+  logo: string;
+  description: string;
+  admin: string;
+}
+
+export interface Manifest {
+  interval: number;
+  priceAggregator: string;
+  defaultSource?: string[];
+  sourceTimeout: number;
+  maxPriceDeviationPercent: number;
+  evmChainId: number;
+  tokens: { [symbol: string]: TokenConfig };
+  enableArweaveBackup?: boolean;
+}
