@@ -8,17 +8,8 @@ export const buildAssetsService = (store: Store) => {
     const manifestFromGateway = await fetchManifestFromGateway();
 
     // It's important that manifestFromContract goes after manifestFromGateway
-    // beacause it should overwrite some isPending values
-    const mergedManifest = { ...manifestFromGateway, ...manifestFromContract };
-
-    // Logging (to help with debugging)
-    console.log({
-      manifestFromContract,
-      manifestFromGateway,
-      mergedManifest,
-    });
-
-    return mergedManifest;
+    // because it should overwrite some isPending values
+    return { ...manifestFromGateway, ...manifestFromContract };
   };
 
   const fetchManifestFromContract = async () => {
