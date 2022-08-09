@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import js from "jsonpath";
 import Card from "../components/Card";
 import Loader, { Spinner } from "../components/Loader";
 import JsonPathResults from "../components/JsonPathResults";
 import Modal from "../components/Modal";
 import CodeExamples from "../components/CodeExamples";
-import { fetchAsset } from "../utils";
+import { AssetResponse } from "../types";
 import ExternalLinkIcon from "../assets/external-link.svg";
 
 const JsonUrlAssetDetails = () => {
@@ -18,11 +19,16 @@ const JsonUrlAssetDetails = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { id } = useParams();
 
-  const { isLoading, data } = useQuery(`assets-${id}`, () => {
-    if (id) {
-      return fetchAsset(id);
+  const { isLoading, data } = useQuery<AssetResponse>(
+    `assets-${id}`,
+    async () => {
+      if (id) {
+        const backendUrl = process.env.BACKEND_URL;
+        const assetResponse = await axios.get(`${backendUrl}/assets/${id}`);
+        return assetResponse.data;
+      }
     }
-  });
+  );
 
   if (isLoading || !data) {
     return <Loader />;
@@ -31,8 +37,8 @@ const JsonUrlAssetDetails = () => {
   const fetchJson = async () => {
     setIsTestLoading(true);
     try {
-      const response = await fetch(data.url);
-      const manifest = await response.json();
+      const response = await axios.get(data.url);
+      const manifest = await response.data;
       setJson(JSON.stringify(manifest));
       setIsTestLoading(false);
       return manifest;

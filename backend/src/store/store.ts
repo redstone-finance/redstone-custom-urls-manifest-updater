@@ -1,4 +1,4 @@
-import { getCurrentManifestTxIdForCustomUrls } from "../../../shared/utils";
+import { getCurrentManifestTxIdForCustomUrls } from "../utils";
 
 export const buildStore = () => {
   let latestManifestTxId = "";

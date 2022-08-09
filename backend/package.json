@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@bundlr-network/client": "^0.7.1",
+    "arweave": "1.11.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "ethers": "^5.6.9",
     "express": "^4.18.0",
-    "jsonpath": "^1.1.1"
+    "jsonpath": "^1.1.1",
+    "redstone-smartweave": "0.4.74"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -27,5 +30,9 @@
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
+  },
+  "resolutions": {
+    "arconnect": "0.4.2",
+    "arweave": "1.11.4"
   }
 }

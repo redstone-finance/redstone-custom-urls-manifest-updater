@@ -18,18 +18,9 @@
     "dev": "yarn frontend:build && yarn backend:dev",
     "start": "yarn frontend:build && yarn backend:start"
   },
-  "dependencies": {
-    "arweave": "1.11.4",
-    "ethers": "^5.6.6",
-    "redstone-smartweave": "0.4.74"
-  },
   "devDependencies": {
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
     "prettier": "^2.7.1"
-  },
-  "resolutions": {
-    "arconnect": "0.4.2",
-    "arweave": "1.11.4"
   }
 }

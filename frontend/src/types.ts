@@ -1,14 +1,6 @@
-import { TokenConfig } from "../../shared/types";
-
-export interface FetchManifestsResponse {
-  pendingOrSavedManifestTxId: string;
-  latestManifestTxId: string;
+export interface AssetResponse {
+  comment: string;
+  id: string;
+  url: string;
+  jsonpath: string;
 }
-
-interface TokenConfigWithPending extends TokenConfig {
-  isPending: boolean;
-}
-
-export type CustomUrlsList = {
-  [assetId in string]: TokenConfigWithPending;
-};

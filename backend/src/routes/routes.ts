@@ -1,13 +1,13 @@
 import express from "express";
+import { NewCustomUrlInput } from "../../../shared/types";
 import { sendNewManifest } from "../modules/manifest.service";
 import { validate } from "../modules/validation.service";
-import { fetchManifest } from "../../../shared/utils";
-import { Store } from "../types";
-import { NewCustomUrlInput } from "../../../shared/types";
+import { AssetsService, Store } from "../types";
+import { fetchManifest } from "../utils";
 
 const router = express.Router();
 
-export const buildRoutes = (store: Store) => {
+export const buildRoutes = (store: Store, assetService: AssetsService) => {
   router.post<NewCustomUrlInput>("/api/custom-urls", async (req, res) => {
     await store.initTxIdsInStoreIfNeeded();
     const latestManifestTxId = store.getLatestManifestTxId();
@@ -23,20 +23,22 @@ export const buildRoutes = (store: Store) => {
     }
   });
 
-  router.get("/api/manifests", (_req, res) => {
-    const latestManifestTxId = store.getLatestManifestTxId();
-    const pendingOrSavedManifestTxId = store.getPendingOrSavedManifestTxId();
-    res.send({
-      pendingOrSavedManifestTxId,
-      latestManifestTxId,
-    });
-  });
-
   router.get("/api/proxy", async (req, res) => {
     const params = req.query as { url: string };
     const responseFromProxiedUrl = await fetch(params.url);
     const responseAsJson = await responseFromProxiedUrl.json();
     res.send(responseAsJson);
+  });
+
+  router.get("/api/assets", async (_req, res) => {
+    const assets = await assetService.fetchAssets();
+    res.send(assets);
+  });
+
+  router.get("/api/assets/:id", async (req, res) => {
+    const params = req.params as { id: string };
+    const assets = await assetService.fetchAsset(params.id);
+    res.send(assets);
   });
 
   return router;

@@ -1,6 +1,6 @@
 import js from "jsonpath";
-import { Manifest } from "../../../shared/types";
-import { calculateSymbol } from "../../../shared/utils";
+import { Manifest } from "../types";
+import { calculateSymbol } from "../utils";
 
 const fetchJsonPathResponse = async (url: string, jsonpath: string) => {
   const response = await (await fetch(url)).json();
