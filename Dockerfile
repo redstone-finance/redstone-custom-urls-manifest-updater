@@ -15,7 +15,5 @@ ENV PORT=9000
 ENV BACKEND_URL=http://localhost:9000/api
 ENV JWK_WALLET=
 
-ENV LIGHT_MODE=true
-
 EXPOSE 9000
 CMD [ "yarn", "start" ]
