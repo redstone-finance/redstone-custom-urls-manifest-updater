@@ -20,8 +20,26 @@ export const isSubscribed = (
 export const isOnlyOneValue = (valuesFromJsonPath: any[]) =>
   valuesFromJsonPath.length === 1;
 
-export const isNumber = (valueFromJsonPath: any) =>
-  typeof valueFromJsonPath === "number";
+export const isNumber = (valueFromJsonPath: any) => {
+  const isNotNullOrUndefined = !(
+    valueFromJsonPath === null || valueFromJsonPath === undefined
+  );
+  const isNotNaN = !isNaN(valueFromJsonPath);
+  const isNotEmptyString = !(
+    typeof valueFromJsonPath === "string" && valueFromJsonPath.length === 0
+  );
+  const isTypeOfNumber = typeof valueFromJsonPath === "number";
+  const valueFromJsonPathAsNumber = Number(valueFromJsonPath);
+  const isNumberAsString =
+    typeof valueFromJsonPathAsNumber === "number" &&
+    !isNaN(valueFromJsonPathAsNumber);
+  return (
+    isNotNullOrUndefined &&
+    isNotNaN &&
+    isNotEmptyString &&
+    (isTypeOfNumber || isNumberAsString)
+  );
+};
 
 export const validate = async (
   manifest: Manifest,

@@ -47,12 +47,54 @@ describe("Validation service", () => {
 
     test("number as string value", () => {
       const testValues = "1";
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumber(testValues)).toBeTruthy();
+    });
+
+    test("number as string value 0", () => {
+      const testValues = "0";
+      expect(isNumber(testValues)).toBeTruthy();
     });
 
     test("number value", () => {
       const testValues = 1;
       expect(isNumber(testValues)).toBeTruthy();
+    });
+
+    test("number value 0", () => {
+      const testValues = 0;
+      expect(isNumber(testValues)).toBeTruthy();
+    });
+
+    test("null", () => {
+      const testValues = null;
+      expect(isNumber(testValues)).toBeFalsy();
+    });
+
+    test("undefined", () => {
+      const testValues = undefined;
+      expect(isNumber(testValues)).toBeFalsy();
+    });
+
+    test("NaN", () => {
+      const testValues = NaN;
+      expect(isNumber(testValues)).toBeFalsy();
+    });
+
+    test("empty string", () => {
+      const testValues = "";
+      expect(isNumber(testValues)).toBeFalsy();
+    });
+
+    test("empty object", () => {
+      const testValues = {};
+      expect(isNumber(testValues)).toBeFalsy();
+    });
+
+    test("object", () => {
+      const testValues = {
+        test: 1234,
+      };
+      expect(isNumber(testValues)).toBeFalsy();
     });
   });
 
@@ -68,64 +110,83 @@ describe("Validation service", () => {
         errorMessage: "Introduced pair URL with JSONPath already exists",
       });
     });
-  });
+    test("not single value", async () => {
+      global.fetch = jest.fn(
+        () =>
+          Promise.resolve({
+            json: () => Promise.resolve({ SUPPLY: [1, 2, 3, 4] }),
+          }) as Promise<Response>
+      );
 
-  test("not single value", async () => {
-    global.fetch = jest.fn(
-      () =>
-        Promise.resolve({
-          json: () => Promise.resolve({ SUPPLY: [1, 2, 3, 4] }),
-        }) as Promise<Response>
-    );
-
-    const validation = await validate(
-      manifest,
-      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-      "$.SUPPLY"
-    );
-    expect(validation).toEqual({
-      isError: true,
-      errorMessage:
-        "Response from pair URL and JSONPath is not single number value",
+      const validation = await validate(
+        manifest,
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
+        "$.SUPPLY"
+      );
+      expect(validation).toEqual({
+        isError: true,
+        errorMessage:
+          "Response from pair URL and JSONPath is not single number value",
+      });
     });
-  });
 
-  test("not number value", async () => {
-    global.fetch = jest.fn(
-      () =>
-        Promise.resolve({
-          json: () => Promise.resolve({ SUPPLY: "1" }),
-        }) as Promise<Response>
-    );
+    test("not number value", async () => {
+      global.fetch = jest.fn(
+        () =>
+          Promise.resolve({
+            json: () => Promise.resolve({ SUPPLY: "test" }),
+          }) as Promise<Response>
+      );
 
-    const validation = await validate(
-      manifest,
-      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-      "$.SUPPLY"
-    );
-    expect(validation).toEqual({
-      isError: true,
-      errorMessage:
-        "Response from pair URL and JSONPath is not single number value",
+      const validation = await validate(
+        manifest,
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
+        "$.SUPPLY"
+      );
+      expect(validation).toEqual({
+        isError: true,
+        errorMessage:
+          "Response from pair URL and JSONPath is not single number value",
+      });
     });
-  });
 
-  test("valid url and jsonpath", async () => {
-    global.fetch = jest.fn(
-      () =>
-        Promise.resolve({
-          json: () => Promise.resolve({ SUPPLY: 1 }),
-        }) as Promise<Response>
-    );
+    test("valid url and jsonpath, number response", async () => {
+      global.fetch = jest.fn(
+        () =>
+          Promise.resolve({
+            json: () => Promise.resolve({ SUPPLY: 1 }),
+          }) as Promise<Response>
+      );
 
-    const validation = await validate(
-      manifest,
-      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
-      "$.SUPPLY"
-    );
-    expect(validation).toEqual({
-      isError: false,
-      errorMessage: "",
+      const validation = await validate(
+        manifest,
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
+        "$.SUPPLY"
+      );
+      expect(validation).toEqual({
+        isError: false,
+        errorMessage: "",
+      });
+    });
+
+    test("valid url and jsonpath, string as number response", async () => {
+      global.fetch = jest.fn(
+        () =>
+          Promise.resolve({
+            json: () => Promise.resolve({ SUPPLY: "test" }),
+          }) as Promise<Response>
+      );
+
+      const validation = await validate(
+        manifest,
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
+        "$.SUPPLY"
+      );
+      expect(validation).toEqual({
+        isError: true,
+        errorMessage:
+          "Response from pair URL and JSONPath is not single number value",
+      });
     });
   });
 });
