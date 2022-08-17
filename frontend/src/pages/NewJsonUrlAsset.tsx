@@ -30,9 +30,8 @@ const NewJsonUrlAsset = () => {
       setIsTestLoading(true);
       try {
         const backendUrl = process.env.BACKEND_URL;
-        const response = await axios.get(
-          `${backendUrl}/proxy?url=${encodeURIComponent(url)}`
-        );
+        const proxyUrl = `${backendUrl}/proxy?url=${encodeURIComponent(url)}`;
+        const response = await axios.get(proxyUrl);
         const json = await response.data;
         setIsTestLoading(false);
         return JSON.stringify(json);

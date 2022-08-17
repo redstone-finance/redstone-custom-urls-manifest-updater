@@ -37,7 +37,11 @@ const JsonUrlAssetDetails = () => {
   const fetchJson = async () => {
     setIsTestLoading(true);
     try {
-      const response = await axios.get(data.url);
+      const backendUrl = process.env.BACKEND_URL;
+      const proxyUrl = `${backendUrl}/proxy?url=${encodeURIComponent(
+        data.url
+      )}`;
+      const response = await axios.get(proxyUrl);
       const manifest = await response.data;
       setJson(JSON.stringify(manifest));
       setIsTestLoading(false);
