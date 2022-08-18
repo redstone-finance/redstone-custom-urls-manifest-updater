@@ -20,19 +20,22 @@ export const isSubscribed = (
 export const isOnlyOneValue = (valuesFromJsonPath: any[]) =>
   valuesFromJsonPath.length === 1;
 
-export const isNumber = (valueFromJsonPath: any) => {
-  const isNotNullOrUndefined = !(
-    valueFromJsonPath === null || valueFromJsonPath === undefined
-  );
-  const isNotNaN = !isNaN(valueFromJsonPath);
-  const isNotEmptyString = !(
-    typeof valueFromJsonPath === "string" && valueFromJsonPath.length === 0
-  );
+export const isNumberish = (valueFromJsonPath: any) => {
+  let valueParsed = valueFromJsonPath;
   const isTypeOfNumber = typeof valueFromJsonPath === "number";
-  const valueFromJsonPathAsNumber = Number(valueFromJsonPath);
+  const isNotNullOrUndefined = !(
+    valueParsed === null || valueParsed === undefined
+  );
+  const isNotEmptyString = !(
+    typeof valueParsed === "string" && valueParsed.length === 0
+  );
+  if (typeof valueFromJsonPath === "string") {
+    const valueWithoutCommas = valueFromJsonPath.replace(/,/g, "");
+    valueParsed = Number(valueWithoutCommas);
+  }
+  const isNotNaN = !isNaN(valueParsed);
   const isNumberAsString =
-    typeof valueFromJsonPathAsNumber === "number" &&
-    !isNaN(valueFromJsonPathAsNumber);
+    typeof valueParsed === "number" && !isNaN(valueParsed);
   return (
     isNotNullOrUndefined &&
     isNotNaN &&
@@ -55,7 +58,7 @@ export const validate = async (
   }
   const valuesFromJsonPath = await fetchJsonPathResponse(url, jsonpath);
   const isOnlyOneValueInResponse = isOnlyOneValue(valuesFromJsonPath);
-  const isResponseNumber = isNumber(valuesFromJsonPath[0]);
+  const isResponseNumber = isNumberish(valuesFromJsonPath[0]);
   if (!isOnlyOneValueInResponse || !isResponseNumber) {
     return {
       isError: true,

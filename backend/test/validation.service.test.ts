@@ -1,7 +1,7 @@
 import {
   isSubscribed,
   isOnlyOneValue,
-  isNumber,
+  isNumberish,
   validate,
 } from "../src/modules/validation.service";
 import manifest from "./helpers/mockManifest.json";
@@ -39,62 +39,72 @@ describe("Validation service", () => {
     });
   });
 
-  describe("isNumber", () => {
+  describe("isNumberish", () => {
     test("string value", () => {
       const testValues = "test";
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("number as string value", () => {
       const testValues = "1";
-      expect(isNumber(testValues)).toBeTruthy();
+      expect(isNumberish(testValues)).toBeTruthy();
     });
 
     test("number as string value 0", () => {
       const testValues = "0";
-      expect(isNumber(testValues)).toBeTruthy();
+      expect(isNumberish(testValues)).toBeTruthy();
+    });
+
+    test("number as string with commas", () => {
+      const testValues = "123,123";
+      expect(isNumberish(testValues)).toBeTruthy();
+    });
+
+    test("number as string with commas and dot", () => {
+      const testValues = "123,123.123";
+      expect(isNumberish(testValues)).toBeTruthy();
     });
 
     test("number value", () => {
       const testValues = 1;
-      expect(isNumber(testValues)).toBeTruthy();
+      expect(isNumberish(testValues)).toBeTruthy();
     });
 
     test("number value 0", () => {
       const testValues = 0;
-      expect(isNumber(testValues)).toBeTruthy();
+      expect(isNumberish(testValues)).toBeTruthy();
     });
 
     test("null", () => {
       const testValues = null;
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("undefined", () => {
       const testValues = undefined;
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("NaN", () => {
       const testValues = NaN;
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("empty string", () => {
       const testValues = "";
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("empty object", () => {
       const testValues = {};
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
 
     test("object", () => {
       const testValues = {
         test: 1234,
       };
-      expect(isNumber(testValues)).toBeFalsy();
+      expect(isNumberish(testValues)).toBeFalsy();
     });
   });
 
@@ -110,6 +120,7 @@ describe("Validation service", () => {
         errorMessage: "Introduced pair URL with JSONPath already exists",
       });
     });
+
     test("not single value", async () => {
       global.fetch = jest.fn(
         () =>
@@ -155,6 +166,25 @@ describe("Validation service", () => {
         () =>
           Promise.resolve({
             json: () => Promise.resolve({ SUPPLY: 1 }),
+          }) as Promise<Response>
+      );
+
+      const validation = await validate(
+        manifest,
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD",
+        "$.SUPPLY"
+      );
+      expect(validation).toEqual({
+        isError: false,
+        errorMessage: "",
+      });
+    });
+
+    test("valid url and jsonpath, number as string response", async () => {
+      global.fetch = jest.fn(
+        () =>
+          Promise.resolve({
+            json: () => Promise.resolve({ SUPPLY: "123,123.123" }),
           }) as Promise<Response>
       );
 
