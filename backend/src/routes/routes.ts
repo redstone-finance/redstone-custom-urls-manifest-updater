@@ -41,5 +41,9 @@ export const buildRoutes = (store: Store, assetService: AssetsService) => {
     res.send(assets);
   });
 
+  router.get("/api/health-check", async (_req, res) => {
+    res.send("Server is working");
+  });
+
   return router;
 };
