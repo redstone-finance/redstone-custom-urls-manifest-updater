@@ -90,7 +90,14 @@ const JsonUrlAssetDetails = () => {
           </div>
           <div>
             <p className="text-sm text-sky-900 font-bold">URL</p>
-            <p className="text-md text-neutral-600">{data?.url ?? "-"}</p>
+            <p
+              className="text-md text-neutral-600 text-ellipsis overflow-hidden cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(data?.url ?? "-");
+              }}
+            >
+              {data?.url ?? "-"}
+            </p>
           </div>
           <div>
             <p className="text-sm text-sky-900 font-bold">JSON path</p>
