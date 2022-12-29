@@ -10,7 +10,7 @@ import { Manifest } from "./types";
 
 const oracleRegistryAddress = "qg5BIOUraunoi6XJzbCC-TgIAypcXyXlVprgg0zRRDE";
 const arweaveUrl = "https://arweave.net";
-const SMARTWEAVE_DEN_NODE_URL = "https://d2rkt3biev1br2.cloudfront.net/state";
+const SMARTWEAVE_DRE_NODE_URL = "https://dre-1.warp.cc/contract";
 const DATA_FEED_ID = "redstone-custom-urls-demo";
 
 export const initBundlr = () => {
@@ -20,7 +20,7 @@ export const initBundlr = () => {
 
 export const getCurrentManifestTxIdForCustomUrls = async () => {
   const params = new URLSearchParams([["id", oracleRegistryAddress]]);
-  const response = await axios.get(SMARTWEAVE_DEN_NODE_URL, {
+  const response = await axios.get(SMARTWEAVE_DRE_NODE_URL, {
     params,
   });
   return response.data.state.dataFeeds[DATA_FEED_ID].manifestTxId;
