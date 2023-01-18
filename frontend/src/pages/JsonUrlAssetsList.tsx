@@ -21,9 +21,11 @@ const JsonUrlAssetsList = () => {
     return <Loader />;
   }
 
-  const assetsSorted = Object.entries(data).sort(
-    ([, left], [, right]) => Number(left.isPending) - Number(right.isPending)
-  );
+  const assetsSorted = Object.entries(data)
+    .sort(
+      ([, left], [, right]) => Number(left.isPending) - Number(right.isPending)
+    )
+    .reverse();
 
   const assetsFiltered = assetsSorted.filter(([key, value]) => {
     const searchLowerCase = search.toLowerCase();

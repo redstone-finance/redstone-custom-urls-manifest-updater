@@ -1,43 +1,28 @@
 import ArLocal from "arlocal";
-import Arweave from "arweave";
 import fs from "fs";
 import path from "path";
-import { JWKInterface } from "arweave/node/lib/wallet";
-import {
-  SmartWeave,
-  SmartWeaveNodeFactory,
-  Contract,
-} from "redstone-smartweave";
+import { Warp, Contract, WarpFactory } from "warp-contracts";
 import { evaluatePendingOrSavedManifestTxId } from "../src/modules/cron";
 import { buildStore } from "../src/store/store";
-import { addFunds, mineBlock } from "./helpers/utils";
 import { RedstoneOraclesState, Store } from "../src/types";
+import { Wallet } from "warp-contracts/lib/types/contract/testing/Testing";
 
 describe("Cron", () => {
   let contractSrc: string;
-  let wallet: JWKInterface;
-  let walletAddress: string;
-  let arweave: Arweave;
+  let wallet: Wallet;
+  let warp: Warp;
   let arlocal: ArLocal;
-  let smartweave: SmartWeave;
   let initialState: RedstoneOraclesState;
   let contract: Contract<RedstoneOraclesState>;
 
   beforeAll(async () => {
-    arlocal = new ArLocal(1823, false);
+    arlocal = new ArLocal(1822, false);
     await arlocal.start();
 
-    arweave = Arweave.init({
-      host: "localhost",
-      port: 1823,
-      protocol: "http",
-      logging: false,
-    });
+    warp = WarpFactory.forLocal(1822);
 
-    smartweave = SmartWeaveNodeFactory.memCached(arweave);
-    wallet = await arweave.wallets.generate();
-    await addFunds(arweave, wallet);
-    walletAddress = await arweave.wallets.jwkToAddress(wallet);
+    wallet = await warp.generateWallet();
+    await warp.testing.addFunds(wallet.jwk);
 
     contractSrc = fs.readFileSync(
       path.join(__dirname, "./helpers/redstone-oracle-registry.contract.js"),
@@ -49,7 +34,7 @@ describe("Cron", () => {
     initialState = {
       canEvolve: true,
       evolve: null,
-      contractAdmins: [walletAddress],
+      contractAdmins: [wallet.address],
       nodes: {},
       dataFeeds: {
         "redstone-custom-urls-demo": {
@@ -57,20 +42,20 @@ describe("Cron", () => {
           manifestTxId: "testManifestTxId",
           logo: "testLogo",
           description: "testDescription",
-          admin: walletAddress,
+          admin: wallet.address,
         },
       },
     };
 
-    const contractTxId = await smartweave.createContract.deploy({
-      wallet,
+    const { contractTxId } = await warp.deploy({
+      wallet: wallet.jwk,
       initState: JSON.stringify(initialState),
       src: contractSrc,
     });
 
-    contract = smartweave.contract(contractTxId);
-    contract.connect(wallet);
-    await mineBlock(arweave);
+    contract = warp.contract(contractTxId);
+    contract.connect(wallet.jwk);
+    await warp.testing.mineBlock();
   });
 
   afterAll(async () => {
@@ -87,7 +72,7 @@ describe("Cron", () => {
     test("latestManifestTxId is equal to pendingOrSavedManifestTxId", async () => {
       store.updateLatestManifestTxId("testManifestTxId");
       store.updatePendingOrSavedManifestTxId("testManifestTxId");
-      const state = (await contract.readState()).state;
+      const state = (await contract.readState()).cachedValue.state;
       const dataFeed = state.dataFeeds["redstone-custom-urls-demo"];
       await evaluatePendingOrSavedManifestTxId(contract, store);
       expect(store.getLatestManifestTxId()).toBe("testManifestTxId");

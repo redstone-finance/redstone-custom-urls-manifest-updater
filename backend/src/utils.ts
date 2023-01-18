@@ -4,8 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import Bundlr from "@bundlr-network/client";
 import { JWKInterface } from "arweave/node/lib/wallet";
-import Arweave from "arweave";
-import { SmartWeaveNodeFactory } from "redstone-smartweave";
+import { WarpFactory } from "warp-contracts";
 import { Manifest } from "./types";
 
 const oracleRegistryAddress = "qg5BIOUraunoi6XJzbCC-TgIAypcXyXlVprgg0zRRDE";
@@ -33,18 +32,9 @@ export const fetchManifest = async (manifestTransactionId: string) => {
   return (await fetchManifestResponse.json()) as Manifest;
 };
 
-const initArweave = () => {
-  return Arweave.init({
-    host: "arweave.net",
-    port: 443,
-    protocol: "https",
-  });
-};
-
 export const getOracleContract = (jwk?: JWKInterface) => {
-  const arweave = initArweave();
-  const smartweave = SmartWeaveNodeFactory.memCachedBased(arweave).build();
-  const contract = smartweave.contract(oracleRegistryAddress);
+  const warp = WarpFactory.forMainnet();
+  const contract = warp.contract(oracleRegistryAddress);
   return !!jwk ? contract.connect(jwk) : contract;
 };
 

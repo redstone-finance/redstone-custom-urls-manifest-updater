@@ -24,3 +24,5 @@ dist-ssr
 
 *.env
 *.parcel-cache
+
+backend/cache

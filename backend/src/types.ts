@@ -46,4 +46,14 @@ export interface Manifest {
   evmChainId: number;
   tokens: { [symbol: string]: TokenConfig };
   enableArweaveBackup?: boolean;
+  deviationCheck: DeviationCheckConfig;
+  httpBroadcasterURLs?: string[];
+  enableStreamrBroadcaster?: boolean;
+}
+
+interface DeviationCheckConfig {
+  deviationWithRecentValues: {
+    maxPercent: number;
+    maxDelayMilliseconds: number;
+  };
 }
