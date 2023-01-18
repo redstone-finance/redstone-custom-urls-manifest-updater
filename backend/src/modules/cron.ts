@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { Contract } from "redstone-smartweave";
+import { Contract } from "warp-contracts";
 import { Store } from "../types";
 
 const JOB_INTERVAL_MILLISECONDS = 10000; // 10 seconds
@@ -15,7 +15,7 @@ export const evaluatePendingOrSavedManifestTxId = async (
   if (latestManifestTxId === pendingOrSavedManifestTxId) {
     return;
   }
-  await contract.bundleInteraction({
+  await contract.writeInteraction({
     function: "updateDataFeed",
     data: {
       id: "redstone-custom-urls-demo",

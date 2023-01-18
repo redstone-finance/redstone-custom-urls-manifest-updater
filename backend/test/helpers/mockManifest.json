@@ -27,5 +27,11 @@
       "maxPriceDeviationPercent": 80
     }
   },
-  "defaultSource": ["custom-urls"]
+  "defaultSource": ["custom-urls"],
+  "deviationCheck": {
+    "deviationWithRecentValues": {
+      "maxPercent": 100,
+      "maxDelayMilliseconds": 300000
+    }
+  }
 }

@@ -26,6 +26,5 @@ export const sendNewManifest = async (
   const bundlr = initBundlr();
   const transaction = bundlr.createTransaction(JSON.stringify(newManifest));
   await transaction.sign();
-  const id = (await transaction.upload()).data.id;
-  return id;
+  return (await transaction.upload()).id;
 };
