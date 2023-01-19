@@ -7,7 +7,7 @@ import { JWKInterface } from "arweave/node/lib/wallet";
 import { WarpFactory } from "warp-contracts";
 import { Manifest } from "./types";
 
-const oracleRegistryAddress = "qg5BIOUraunoi6XJzbCC-TgIAypcXyXlVprgg0zRRDE";
+const oracleRegistryAddress = "Ebh7jYjVxzoZpVR4HSjHddZs1t6k2JLskBRbjEfutgM";
 const arweaveUrl = "https://arweave.net";
 const SMARTWEAVE_DRE_NODE_URL = "https://dre-1.warp.cc/contract";
 const DATA_FEED_ID = "redstone-custom-urls-demo";
@@ -22,7 +22,7 @@ export const getCurrentManifestTxIdForCustomUrls = async () => {
   const response = await axios.get(SMARTWEAVE_DRE_NODE_URL, {
     params,
   });
-  return response.data.state.dataFeeds[DATA_FEED_ID].manifestTxId;
+  return response.data.state.dataServices[DATA_FEED_ID].manifestTxId;
 };
 
 export const fetchManifest = async (manifestTransactionId: string) => {

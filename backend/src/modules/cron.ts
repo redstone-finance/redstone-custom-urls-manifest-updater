@@ -16,7 +16,7 @@ export const evaluatePendingOrSavedManifestTxId = async (
     return;
   }
   await contract.writeInteraction({
-    function: "updateDataFeed",
+    function: "updateDataService",
     data: {
       id: "redstone-custom-urls-demo",
       update: {

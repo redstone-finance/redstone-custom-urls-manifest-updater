@@ -36,7 +36,7 @@ describe("Cron", () => {
       evolve: null,
       contractAdmins: [wallet.address],
       nodes: {},
-      dataFeeds: {
+      dataServices: {
         "redstone-custom-urls-demo": {
           name: "redstone-custom-urls-demo",
           manifestTxId: "testManifestTxId",
@@ -73,11 +73,11 @@ describe("Cron", () => {
       store.updateLatestManifestTxId("testManifestTxId");
       store.updatePendingOrSavedManifestTxId("testManifestTxId");
       const state = (await contract.readState()).cachedValue.state;
-      const dataFeed = state.dataFeeds["redstone-custom-urls-demo"];
+      const dataService = state.dataServices["redstone-custom-urls-demo"];
       await evaluatePendingOrSavedManifestTxId(contract, store);
       expect(store.getLatestManifestTxId()).toBe("testManifestTxId");
       expect(store.getPendingOrSavedManifestTxId()).toBe("testManifestTxId");
-      expect(dataFeed.manifestTxId).toBe("testManifestTxId");
+      expect(dataService.manifestTxId).toBe("testManifestTxId");
     });
 
     test("latestManifestTxId is not equal to pendingOrSavedManifestTxId", async () => {

@@ -10,17 +10,17 @@ export interface EvolveState {
 export interface RedstoneOraclesState extends EvolveState {
   contractAdmins: string[];
   nodes: Nodes;
-  dataFeeds: DataFeeds;
+  dataServices: DataServices;
 }
 
 export type Nodes = { [key in string]: Node };
-export type DataFeeds = { [key in string]: DataFeed };
+export type DataServices = { [key in string]: DataService };
 
 interface Node {
   name: string;
   logo: string;
   description: string;
-  dataFeedId: string;
+  dataServiceId: string;
   evmAddress: string;
   ipAddress: string;
   url?: string;
@@ -29,7 +29,7 @@ interface Node {
 export type Store = ReturnType<typeof buildStore>;
 export type AssetsService = ReturnType<typeof buildAssetsService>;
 
-export interface DataFeed {
+export interface DataService {
   name: string;
   manifestTxId: string;
   logo: string;

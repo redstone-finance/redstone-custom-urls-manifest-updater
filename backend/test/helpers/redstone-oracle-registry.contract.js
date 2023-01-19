@@ -114,18 +114,20 @@
       data.name &&
       data.logo &&
       data.description &&
-      data.dataFeedId &&
+      data.dataServiceId &&
       data.evmAddress &&
-      data.ipAddress;
+      data.ipAddress &&
+      data.ecdsaPublicKey &&
+      data.arweavePublicKey;
     if (!isValidData) {
       throw new ContractError("Invalid node data");
     }
     if (state.nodes[caller]) {
       throw new ContractError(`Node with owner ${caller} already exists`);
     }
-    if (!state.dataFeeds[data.dataFeedId]) {
+    if (!state.dataServices[data.dataServiceId]) {
       throw new ContractError(
-        `Data feed with id ${data.dataFeedId} does not exist`
+        `Data feed with id ${data.dataServiceId} does not exist`
       );
     }
     state.nodes[caller] = data;
@@ -157,26 +159,29 @@
     return { state };
   };
 
-  // src/contracts/redstone-oracle-registry/data-feeds/read/listDataFeeds.ts
-  var listDataFeeds = (state, input) => {
+  // src/contracts/redstone-oracle-registry/data-services/read/listDataServices.ts
+  var listDataServices = (state, input) => {
     const paginationData = input.data;
-    const dataFeedsArray = listWithPagination(paginationData, state.dataFeeds);
-    return { result: dataFeedsArray };
+    const dataServicesArray = listWithPagination(
+      paginationData,
+      state.dataServices
+    );
+    return { result: dataServicesArray };
   };
 
-  // src/contracts/redstone-oracle-registry/data-feeds/read/getDataFeedDetailsById.ts
-  var getDataFeedDetailsById = (state, input) => {
+  // src/contracts/redstone-oracle-registry/data-services/read/getDataServiceDetailsById.ts
+  var getDataServiceDetailsById = (state, input) => {
     const data = input.data;
-    const dataFeedDetails = getDetailsById({
+    const dataServiceDetails = getDetailsById({
       identifier: data == null ? void 0 : data.id,
       state,
-      oraclesType: "dataFeeds",
+      oraclesType: "dataServices",
     });
-    return { result: dataFeedDetails };
+    return { result: dataServiceDetails };
   };
 
-  // src/contracts/redstone-oracle-registry/data-feeds/write/createDataFeed.ts
-  var createDataFeed = (state, action) => {
+  // src/contracts/redstone-oracle-registry/data-services/write/createDataService.ts
+  var createDataService = (state, action) => {
     const data = action.input.data;
     const isValidData =
       data.id &&
@@ -190,28 +195,28 @@
     const _a = data,
       { id } = _a,
       restData = __objRest(_a, ["id"]);
-    if (state.dataFeeds[id]) {
+    if (state.dataServices[id]) {
       throw new ContractError(`Data feed with id ${id} already exists`);
     }
-    state.dataFeeds[id] = __spreadProps(__spreadValues({}, restData), {
+    state.dataServices[id] = __spreadProps(__spreadValues({}, restData), {
       admin: action.caller,
     });
     return { state };
   };
 
-  // src/contracts/redstone-oracle-registry/data-feeds/write/updateDataFeed.ts
-  var updateDataFeed = (state, action) => {
+  // src/contracts/redstone-oracle-registry/data-services/write/updateDataService.ts
+  var updateDataService = (state, action) => {
     const data = action.input.data;
     const { id, update } = data;
-    const currentDataFeedState = state.dataFeeds[id];
-    if (!currentDataFeedState) {
+    const currentDataServiceState = state.dataServices[id];
+    if (!currentDataServiceState) {
       throw new ContractError(`Data feed with id ${id} not found`);
     }
-    if (action.caller !== currentDataFeedState.admin) {
+    if (action.caller !== currentDataServiceState.admin) {
       throw new ContractError("Only admin can update data feed");
     }
-    state.dataFeeds[id] = __spreadValues(
-      __spreadValues({}, currentDataFeedState),
+    state.dataServices[id] = __spreadValues(
+      __spreadValues({}, currentDataServiceState),
       update
     );
     return { state };
@@ -245,14 +250,14 @@
           return updateNodeDetails(state, action);
         case "removeNode":
           return removeNode(state, action.caller);
-        case "listDataFeeds":
-          return listDataFeeds(state, input);
-        case "getDataFeedDetailsById":
-          return getDataFeedDetailsById(state, input);
-        case "createDataFeed":
-          return createDataFeed(state, action);
-        case "updateDataFeed":
-          return updateDataFeed(state, action);
+        case "listDataServices":
+          return listDataServices(state, input);
+        case "getDataServiceDetailsById":
+          return getDataServiceDetailsById(state, input);
+        case "createDataService":
+          return createDataService(state, action);
+        case "updateDataService":
+          return updateDataService(state, action);
         case "evolve":
           return evolve(state, action);
         default:
