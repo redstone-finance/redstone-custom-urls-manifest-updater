@@ -12,6 +12,7 @@
   "dependencies": {
     "@bundlr-network/client": "^0.9.11",
     "arlocal": "^1.1.60",
+    "axios": "^1.2.5",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
