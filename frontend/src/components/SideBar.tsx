@@ -8,7 +8,7 @@ export const SideBar = () => {
     <div className="flex flex-col px-4 text-center w-40 self-center fixed mb-0 mt-[75vh]">
       <div>
         <a
-          className="text-[12px] text-redstone"
+          className="text-[12px] text-redstone hover:underline"
           href="https://redstone.finance/"
           target="_blank"
         >
@@ -17,7 +17,7 @@ export const SideBar = () => {
       </div>
       <div>
         <a
-          className="text-[12px] text-redstone"
+          className="text-[12px] text-redstone hover:underline"
           href="https://app.redstone.finance/"
           target="_blank"
         >
